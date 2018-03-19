@@ -1,2 +1,2 @@
 # NilamHut
-Auction feat e-commerce web platform.
+## `API for the online auction platform NilamHut`
