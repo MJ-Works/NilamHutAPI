@@ -19,6 +19,6 @@ namespace NilamHutAPI.Models
         [StringLength(1000)]
         public String ProductDescription { get; set; }
         
-        public int BasePrice { get; set; }
+        public double BasePrice { get; set; }
     }
 }

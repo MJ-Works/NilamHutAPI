@@ -17,6 +17,6 @@ namespace NilamHutAPI.Models
         public String ProductName { get; set; }
 
         [Required]
-        public int SoldPrice { get; set; }
+        public double SoldPrice { get; set; }
     }
 }
