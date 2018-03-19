@@ -14,6 +14,8 @@ namespace NilamHutAPI.Data
             : base(options)
         {
         }
+
+        public DbSet<PersonalInfo> PersonalInfo { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
