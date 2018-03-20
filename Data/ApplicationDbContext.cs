@@ -18,7 +18,7 @@ namespace NilamHutAPI.Data
         public DbSet<City> City { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Image> Images { get; set; }
-        public DbSet<PersonalInfo> PersonalInfo { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
