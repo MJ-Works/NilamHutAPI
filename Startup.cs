@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using FluentValidation.AspNetCore;
 using NilamHutAPI.Auth;
+using NilamHutAPI.Services;
 
 namespace NilamHutAPI
 {
@@ -41,6 +42,7 @@ namespace NilamHutAPI
             .AddDefaultTokenProviders();
 
              services.AddSingleton<IJwtFactory, JwtFactory>();
+             services.AddScoped<IUserService,UserService>();
 
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
