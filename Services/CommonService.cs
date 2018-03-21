@@ -17,6 +17,7 @@ namespace NilamHutAPI.Services
             _context = context;
         }
 
+        // City related
         public async Task<bool> AddCity(CityViewModel newCity)
         {
             var entity = new City
@@ -29,6 +30,14 @@ namespace NilamHutAPI.Services
 
         }
 
+        public async Task<IEnumerable<City>> AllCity()
+        {
+            return await _context.City.ToListAsync();
+        }
+
+        // City Related End
+
+        // Country Related Starts
         public async Task<bool> AddCountry(CountryViewModel newCountry)
         {
             var entity = new Country
@@ -40,14 +49,61 @@ namespace NilamHutAPI.Services
             return 1 == await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<City>> AllCity()
-        {
-            return await _context.City.ToListAsync();
-        }
-        
         public async Task<IEnumerable<Country>> AllCountrty()
         {
             return await _context.Country.ToListAsync();
         }
+        // Counrty Related End
+
+        // Tag Related
+        public async Task<bool> AddTag(TagViewModel newtag)
+        {
+           var entity = new Tag
+            {
+                Id = new Guid(),
+                TagName = newtag.TagName,
+                TagDescription = newtag.TagDescription
+            };
+            _context.Tags.Add(entity);
+
+            return 1 == await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Tag>> AllTag()
+        {
+            return await _context.Tags.ToListAsync();
+        }
+
+        public async Task<bool> DeleteTag(Guid tagId)
+        {
+            _context.Tags.Remove(await _context.Tags.FindAsync(tagId));
+
+            return 1 == await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> EditTag(Guid tagId, TagViewModel newtag)
+        {
+            var contex = await _context.Tags.FindAsync(tagId);
+
+            contex.TagName = newtag.TagName;
+            contex.TagDescription = newtag.TagDescription;
+
+            try{
+                await _context.SaveChangesAsync();
+                return true;
+
+            }catch{
+                return false;
+            }
+
+        }
+
+        public async Task<Tag> getSingleTag(Guid tagId)
+        {
+            return await _context.Tags.FindAsync(tagId);
+        }
+
+        // Tag related End
+        
     }
 }
