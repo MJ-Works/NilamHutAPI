@@ -28,16 +28,17 @@ namespace NilamHutAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]RegistrationViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                var result = await _userManager.CreateAsync(user, model.Password);
+               return new ObjectResult(result);
             }
             else{
                 return BadRequest(ModelState);
             }
 
-            return new OkObjectResult("Account created");
+           // return new OkObjectResult("Account created");
         }
     }
 }
