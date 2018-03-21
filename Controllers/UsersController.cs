@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace NilamHutAPI.Controllers
 {
+    [Authorize(Policy = "ApiUser")]
     [Route("api/[controller]/[action]")]
     public class UsersController : Controller
     {
@@ -24,14 +25,15 @@ namespace NilamHutAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostUser(UserViewModel user)
+        public async Task<IActionResult> PostUser([FromBody]UserViewModel user)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if(currentUser == null) return Challenge();
+            var getUserId = User.FindFirst("Id").Value;
+
+            if(getUserId == null) return Challenge();
 
             if(ModelState.IsValid)
             {
-                var result =  await _userService.AddUserAsync(user,currentUser);
+                var result =  await _userService.AddUserAsync(user,getUserId);
                 if(result) return Ok();
                 else return new ObjectResult(result);
             }

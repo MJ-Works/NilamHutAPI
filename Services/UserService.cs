@@ -15,14 +15,27 @@ namespace NilamHutAPI.Services
         {
             _context = context;
         }
-        public async Task<bool> AddUserAsync(UserViewModel user, ApplicationUser applicationUser)
+        public async Task<bool> AddUserAsync(UserViewModel user, string applicationUser)
         {
+            City city = new City{
+                Id = new Guid(),
+                CityName = "Dhaka"
+            };
+
+            Country country = new Country{
+                Id = new Guid(),
+                CountryName = "Bangladesh"
+            };
+
+            _context.City.Add(city);
+            _context.Country.Add(country);
+            
             User newUser = new User{
                 Id = new Guid(),
-                ApplicationUserId = applicationUser.Id,
+                ApplicationUserId = applicationUser,
                 FullName = user.FullName,
-                CountryId = user.CountryId,
-                CityId = user.CityId,
+                CountryId = country.Id,
+                CityId = city.Id,
                 PostCode = user.PostCode,
                 Address = user.Address,
                 Phone = user.Phone,
@@ -34,9 +47,9 @@ namespace NilamHutAPI.Services
             return saveResult == 1;
         }
 
-        public async Task<bool> EditUserAsync(UserViewModel user, ApplicationUser applicationUser)
+        public async Task<bool> EditUserAsync(UserViewModel user, string applicationUser)
         {
-            var findUser = await _context.User.SingleAsync(x=>x.ApplicationUserId == applicationUser.Id);
+            var findUser = await _context.User.SingleAsync(x=>x.ApplicationUserId == applicationUser);
 
             findUser.FullName = user.FullName;
             findUser.CountryId = user.CountryId;
@@ -50,9 +63,9 @@ namespace NilamHutAPI.Services
             return saveResult >= 1;
         }
 
-        public async Task<User> GetUserAsync(ApplicationUser applicationUser)
+        public async Task<User> GetUserAsync(string applicationUser)
         {
-            return await _context.User.SingleAsync(x=>x.ApplicationUserId == applicationUser.Id);
+            return await _context.User.SingleAsync(x=>x.ApplicationUserId == applicationUser);
         }
     }
 }

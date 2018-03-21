@@ -8,8 +8,8 @@ namespace NilamHutAPI.Services
 {
     public interface IUserService
     {
-        Task<User> GetUserAsync(ApplicationUser applicationUser);
-        Task<bool> AddUserAsync(UserViewModel user, ApplicationUser applicationUser);
-        Task<bool> EditUserAsync(UserViewModel user, ApplicationUser applicationUser);
+        Task<User> GetUserAsync(string applicationUser);
+        Task<bool> AddUserAsync(UserViewModel user, string applicationUser);
+        Task<bool> EditUserAsync(UserViewModel user, string applicationUser);
     }
 }
