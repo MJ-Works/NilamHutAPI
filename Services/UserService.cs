@@ -17,25 +17,16 @@ namespace NilamHutAPI.Services
         }
         public async Task<bool> AddUserAsync(UserViewModel user, string applicationUser)
         {
-            City city = new City{
-                Id = new Guid(),
-                CityName = "Dhaka"
-            };
+            var testIsAlreadyCreated = await _context.User.FirstOrDefaultAsync(x=>x.ApplicationUserId == applicationUser);
+            if(testIsAlreadyCreated != null) //for disable posting multiple data for one application user through api
+                return false;                //one application user can have only one User information
 
-            Country country = new Country{
-                Id = new Guid(),
-                CountryName = "Bangladesh"
-            };
-
-            _context.City.Add(city);
-            _context.Country.Add(country);
-            
             User newUser = new User{
                 Id = new Guid(),
                 ApplicationUserId = applicationUser,
                 FullName = user.FullName,
-                CountryId = country.Id,
-                CityId = city.Id,
+                CountryId = user.CountryId,
+                CityId = user.CityId,
                 PostCode = user.PostCode,
                 Address = user.Address,
                 Phone = user.Phone,

@@ -40,5 +40,33 @@ namespace NilamHutAPI.Controllers
 
             return BadRequest(ModelState);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUser()
+        {
+            var getUserId = User.FindFirst("Id").Value;
+
+            if(getUserId == null) return Challenge();
+
+            var result =  await _userService.GetUserAsync(getUserId);
+            return Json(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditUser([FromBody] UserViewModel user)
+        {
+            var getUserId = User.FindFirst("Id").Value;
+
+            if(getUserId == null) return Challenge();
+
+            if(ModelState.IsValid)
+            {
+                var result =  await _userService.EditUserAsync(user,getUserId);
+                if(result) return Ok();
+                else return new ObjectResult(result);
+            }
+
+            return BadRequest(ModelState);
+        }
     }
 }
