@@ -41,8 +41,11 @@ namespace NilamHutAPI
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+
              services.AddSingleton<IJwtFactory, JwtFactory>();
              services.AddScoped<IUserService,UserService>();
+            services.AddScoped<ICommonService, CommonService>();
+
 
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
