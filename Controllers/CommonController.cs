@@ -64,5 +64,55 @@ namespace NilamHutAPI.Controllers
             return new OkObjectResult(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AllTags()
+        {
+            var result = await _commonService.AllTag();
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SingleTag(Guid id)
+        {
+            var result = await _commonService.getSingleTag(id);
+            return new OkObjectResult(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditTag(Guid id, [FromBody] TagViewModel model)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _commonService.EditTag(id,model);
+
+            if (result == true)
+                return new OkObjectResult("Success");
+
+            return BadRequest("Fail TO Update");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTag(Guid id)
+        {
+            var result = await _commonService.DeleteTag(id);
+
+            if (result == true)
+                return new OkObjectResult("Successs");
+
+            return BadRequest("Fail TO Delete");
+        }
+
+        [HttpPost] 
+        public async Task<IActionResult> AddTag([FromBody]TagViewModel model)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var result = await _commonService.AddTag(model);
+
+            if (result == true)
+                return new OkObjectResult("Successs");
+
+            return BadRequest("Fail TO Add");
+
+        }
     }
 }
