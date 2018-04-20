@@ -17,7 +17,6 @@ namespace NilamHutAPI.Controllers
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
-
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
@@ -38,7 +37,7 @@ namespace NilamHutAPI.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded) return BadRequest(Errors.AddErrorsToModelState(result, ModelState));
             return new OkObjectResult(new { Message = "Account Created." });
-            
+
         }
 
         // POST api/auth/login
