@@ -35,7 +35,13 @@ namespace NilamHutAPI.Controllers
             {
                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                var result = await _userManager.CreateAsync(user, model.Password);
-               return new ObjectResult(result);
+                if (!result.Succeeded) return new ObjectResult(result);
+                else
+                {
+                    await _userManager.AddToRoleAsync(user, Constants.Strings.UserRoles.SimpleUser);
+                    return new ObjectResult(result);
+                }
+
             }
             else{
                 return BadRequest(ModelState);
