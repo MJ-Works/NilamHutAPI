@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NilamHutAPI.Helpers;
 
 namespace NilamHutAPI.Controllers
 {
-    [Authorize(Policy = "ApiUser")]
+    [Authorize(Policy = nameof(Constants.Strings.UserRoles.Administrator))]
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {

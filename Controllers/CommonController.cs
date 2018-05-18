@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace NilamHutAPI.Controllers
 {
-    [Authorize(Policy = "ApiUser")]
+    //[Authorize(Policy = "ApiUser")]
     [Route("api/[controller]/[action]")]
     public class CommonController : Controller
     {

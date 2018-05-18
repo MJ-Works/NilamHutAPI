@@ -89,7 +89,12 @@ namespace NilamHutAPI
             // api user claim policy
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+                options.AddPolicy(nameof(Constants.Strings.UserRoles.Administrator), policy => policy.RequireClaim("Rol", Constants.Strings.UserRoles.Administrator));
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(nameof(Constants.Strings.UserRoles.SimpleUser), policy => policy.RequireClaim("Rol", Constants.Strings.UserRoles.SimpleUser));
             });
 
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());

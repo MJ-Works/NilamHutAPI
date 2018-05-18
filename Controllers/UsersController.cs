@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace NilamHutAPI.Controllers
 {
-    [Authorize(Policy = "ApiUser")]
+    //[Authorize(Policy = "ApiUser")]
     [Route("api/[controller]/[action]")]
     public class UsersController : Controller
     {
