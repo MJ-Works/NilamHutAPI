@@ -43,7 +43,7 @@ namespace NilamHutAPI
             .AddDefaultTokenProviders();
 
 
-             services.AddSingleton<IJwtFactory, JwtFactory>();
+             services.AddScoped<IJwtFactory, JwtFactory>();
              services.AddScoped<IUserService,UserService>();
             services.AddScoped<ICommonService, CommonService>();
 
