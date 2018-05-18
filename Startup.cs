@@ -47,6 +47,13 @@ namespace NilamHutAPI
              services.AddScoped<IUserService,UserService>();
             services.AddScoped<ICommonService, CommonService>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                                    builder => builder.WithOrigins("http://localhost:4200")
+                                    .AllowAnyHeader().AllowAnyMethod());
+            });
+
 
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
