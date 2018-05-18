@@ -14,6 +14,11 @@ namespace NilamHutAPI.Helpers
             {
                 public const string ApiAccess = "api_access";
             }
+
+            public static class UserRoles
+            {
+                public const string Administrator = "Administrator", SimpleUser = "SimpleUser";
+            }
         }
     }
 }
