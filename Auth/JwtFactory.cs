@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using NilamHutAPI.Models;
 using Microsoft.Extensions.Options;

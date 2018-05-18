@@ -22,8 +22,6 @@ namespace NilamHutAPI
 {
     public class Startup
     {
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -58,6 +56,7 @@ namespace NilamHutAPI
             // Get options from app settings
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
+            SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtAppSettingOptions["SecreatKey"]));
             // Configure JwtIssuerOptions
             services.Configure<JwtIssuerOptions>(options =>
             {
@@ -96,17 +95,32 @@ namespace NilamHutAPI
             // api user claim policy
             services.AddAuthorization(options =>
             {
+<<<<<<< HEAD
                 options.AddPolicy(nameof(Constants.Strings.UserRoles.Administrator), policy => policy.RequireClaim("Rol", Constants.Strings.UserRoles.Administrator));
             });
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(nameof(Constants.Strings.UserRoles.SimpleUser), policy => policy.RequireClaim("Rol", Constants.Strings.UserRoles.SimpleUser));
+=======
+                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
+>>>>>>> 97683bbd34155ece7fd5ae0d27c50593f657cd61
             });
 
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMvc().AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
-            services.AddMvc();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200")
+                               .AllowAnyHeader().AllowAnyMethod();
+                    });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -118,12 +132,17 @@ namespace NilamHutAPI
                 app.UseDeveloperExceptionPage();
             }
 
+<<<<<<< HEAD
             //create roles needed for application
 
             EnsureRolesAsync(roleManager).Wait();
 
             //Create an account and make it administrator
             AssignAdminRole(userManager).Wait();
+=======
+            app.UseCors("AllowSpecificOrigin");
+            app.UseStaticFiles();
+>>>>>>> 97683bbd34155ece7fd5ae0d27c50593f657cd61
 
             app.UseAuthentication();
 
