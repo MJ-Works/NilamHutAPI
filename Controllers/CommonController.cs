@@ -12,7 +12,7 @@ using NilamHutAPI.Helpers;
 namespace NilamHutAPI.Controllers
 {
 
-    [Authorize(Policy = "ApiUser")]
+    //[Authorize(Policy = "ApiUser")]
     [Route("api/[controller]")]
     public class CommonController : Controller
     {

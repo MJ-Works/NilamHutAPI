@@ -95,16 +95,13 @@ namespace NilamHutAPI
             // api user claim policy
             services.AddAuthorization(options =>
             {
-<<<<<<< HEAD
                 options.AddPolicy(nameof(Constants.Strings.UserRoles.Administrator), policy => policy.RequireClaim("Rol", Constants.Strings.UserRoles.Administrator));
             });
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(nameof(Constants.Strings.UserRoles.SimpleUser), policy => policy.RequireClaim("Rol", Constants.Strings.UserRoles.SimpleUser));
-=======
-                options.AddPolicy("ApiUser", policy => policy.RequireClaim(Constants.Strings.JwtClaimIdentifiers.Rol, Constants.Strings.JwtClaims.ApiAccess));
->>>>>>> 97683bbd34155ece7fd5ae0d27c50593f657cd61
+
             });
 
             services.AddMvc().AddJsonOptions(
@@ -132,17 +129,15 @@ namespace NilamHutAPI
                 app.UseDeveloperExceptionPage();
             }
 
-<<<<<<< HEAD
             //create roles needed for application
 
             EnsureRolesAsync(roleManager).Wait();
 
             //Create an account and make it administrator
             AssignAdminRole(userManager).Wait();
-=======
+
             app.UseCors("AllowSpecificOrigin");
             app.UseStaticFiles();
->>>>>>> 97683bbd34155ece7fd5ae0d27c50593f657cd61
 
             app.UseAuthentication();
 
