@@ -45,6 +45,7 @@ namespace NilamHutAPI.Models
         public bool IsVip { get; set; }
 
         public Credit Credit { get; set; }
-        List<Rating> Ratings { get; set; }
+        public List<Rating> Ratings { get; set; }
+        public List<Post> Post { get; set; }
     }
 }

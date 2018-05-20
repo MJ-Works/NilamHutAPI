@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NilamHutAPI.Models
@@ -14,5 +15,7 @@ namespace NilamHutAPI.Models
         [Required]
         [StringLength(1000)]
         public String TagDescription { get; set; }
+
+        public List<ProductTag> Products { get; set; }
     }
 }

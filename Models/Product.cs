@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace NilamHutAPI.Models
 {
@@ -20,5 +21,9 @@ namespace NilamHutAPI.Models
         public String ProductDescription { get; set; }
         
         public double BasePrice { get; set; }
+
+        public List<Image> Image { get; set; }
+
+        public List<ProductTag> Tags { get; set; }
     }
 }

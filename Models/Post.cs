@@ -20,5 +20,7 @@ namespace NilamHutAPI.Models
         [Required]
         [StringLength(1000)]
         public String ContactInfo { get; set; }
+
+        public Product Product { get; set; }
     }
 }

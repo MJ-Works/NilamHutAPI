@@ -11,6 +11,5 @@ namespace NilamHutAPI.Models
         public String ApplicationUserId { get; set; }
 
         public ApplicationUser ApplicationUser { get; set; }
-        
     }
 }
