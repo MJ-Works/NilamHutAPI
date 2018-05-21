@@ -17,9 +17,16 @@ namespace NilamHutAPI.Models
         [StringLength(50)]
         public int ProductName { get; set; }
 
+        [Required]
         [StringLength(1000)]
         public String ProductDescription { get; set; }
+
+        [Required]
+        [Range(1,100000)]
+        public String Quantity { get; set; }
         
+        [Required]
+        [Range(1,10000000)]
         public double BasePrice { get; set; }
 
         public List<Image> Image { get; set; }

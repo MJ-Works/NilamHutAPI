@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace NilamHutAPI.Models
@@ -10,5 +11,7 @@ namespace NilamHutAPI.Models
         [Required]
         [StringLength(20)]
         public String CityName { get; set; }
+
+        public List<Post> Posts { get; set; }
     }
 }

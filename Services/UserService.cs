@@ -29,8 +29,7 @@ namespace NilamHutAPI.Services
                 CityId = user.CityId,
                 PostCode = user.PostCode,
                 Address = user.Address,
-                Phone = user.Phone,
-                UserRating = 0
+                Phone = user.Phone
             };
             
             _context.User.Add(newUser);

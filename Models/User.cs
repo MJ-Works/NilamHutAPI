@@ -38,14 +38,13 @@ namespace NilamHutAPI.Models
         [StringLength(50)]
         [Phone]
         public String Phone { get; set; }
-
+        
         [Required]
-        public int UserRating { get; set; }
-
         public bool IsVip { get; set; }
 
+        public Rating Rating { get; set; }
         public Credit Credit { get; set; }
-        public List<Rating> Ratings { get; set; }
         public List<Post> Post { get; set; }
+        public List<SoldHistory> SoldHistories { get; set; }
     }
 }

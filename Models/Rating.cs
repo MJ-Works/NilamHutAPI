@@ -8,6 +8,7 @@ namespace NilamHutAPI.Models
         public Guid Id { get; set; }
 
         [Required]
+        [Range(1,5)]
         public int UserRating { get; set; }
 
         [StringLength(500)]
