@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using NilamHutAPI.Data;
 using System;
 
@@ -179,27 +177,6 @@ namespace NilamHutAPI.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("NilamHutAPI.Models.Bid", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired();
-
-                    b.Property<int>("BidPrice");
-
-                    b.Property<Guid?>("PostId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("PostId");
-
-                    b.ToTable("Bid");
-                });
-
             modelBuilder.Entity("NilamHutAPI.Models.City", b =>
                 {
                     b.Property<Guid>("Id")
@@ -269,13 +246,9 @@ namespace NilamHutAPI.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("CityId");
-
                     b.Property<string>("ContactInfo")
                         .IsRequired()
                         .HasMaxLength(1000);
-
-                    b.Property<Guid?>("CountryId");
 
                     b.Property<DateTime?>("EndDateTime")
                         .IsRequired();
@@ -286,10 +259,6 @@ namespace NilamHutAPI.Migrations
                     b.Property<Guid>("userId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
 
                     b.HasIndex("userId");
 
@@ -306,14 +275,10 @@ namespace NilamHutAPI.Migrations
                     b.Property<Guid>("PostId");
 
                     b.Property<string>("ProductDescription")
-                        .IsRequired()
                         .HasMaxLength(1000);
 
                     b.Property<int>("ProductName")
                         .HasMaxLength(50);
-
-                    b.Property<string>("Quantity")
-                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -350,8 +315,7 @@ namespace NilamHutAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Rating");
                 });
@@ -424,6 +388,8 @@ namespace NilamHutAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
+                    b.Property<int>("UserRating");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -480,18 +446,6 @@ namespace NilamHutAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("NilamHutAPI.Models.Bid", b =>
-                {
-                    b.HasOne("NilamHutAPI.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("NilamHutAPI.Models.Post", "Post")
-                        .WithMany("Bids")
-                        .HasForeignKey("PostId");
-                });
-
             modelBuilder.Entity("NilamHutAPI.Models.Credit", b =>
                 {
                     b.HasOne("NilamHutAPI.Models.User", "User")
@@ -510,14 +464,6 @@ namespace NilamHutAPI.Migrations
 
             modelBuilder.Entity("NilamHutAPI.Models.Post", b =>
                 {
-                    b.HasOne("NilamHutAPI.Models.City", "City")
-                        .WithMany("Posts")
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("NilamHutAPI.Models.Country", "Country")
-                        .WithMany("Post")
-                        .HasForeignKey("CountryId");
-
                     b.HasOne("NilamHutAPI.Models.User", "User")
                         .WithMany("Post")
                         .HasForeignKey("userId")
@@ -548,15 +494,15 @@ namespace NilamHutAPI.Migrations
             modelBuilder.Entity("NilamHutAPI.Models.Rating", b =>
                 {
                     b.HasOne("NilamHutAPI.Models.User", "User")
-                        .WithOne("Rating")
-                        .HasForeignKey("NilamHutAPI.Models.Rating", "UserId")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("NilamHutAPI.Models.SoldHistory", b =>
                 {
                     b.HasOne("NilamHutAPI.Models.User", "User")
-                        .WithMany("SoldHistories")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

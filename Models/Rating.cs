@@ -15,7 +15,7 @@ namespace NilamHutAPI.Models
         public String UserComment { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public String ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
     }
 }
