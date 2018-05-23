@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using NilamHutAPI.Interfaces;
 using NilamHutAPI.Data;
-using NilamHutAPI.Models;
-using System.Linq;
+using NilamHutAPI.Repositories.interfaces;
 
-namespace NilamHutAPI.Services
+namespace NilamHutAPI.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
