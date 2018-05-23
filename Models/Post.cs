@@ -25,12 +25,10 @@ namespace NilamHutAPI.Models
         public String ContactInfo { get; set; }
 
         public Country Country { get; set; }
-        [Required]
-        public Guid CountryId { get; set; }
+        public Guid? CountryId { get; set; }
 
         public City City { get; set; }
-        [Required]
-        public Guid CityId { get; set; }
+        public Guid? CityId { get; set; }
 
         public Product Product { get; set; }
         public List<Bid> Bids { get; set; }
