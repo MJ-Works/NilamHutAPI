@@ -49,6 +49,7 @@ namespace NilamHutAPI
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IBidService, BidService>();
 
             services.AddCors(options =>
             {
