@@ -17,6 +17,9 @@ using FluentValidation.AspNetCore;
 using NilamHutAPI.Auth;
 using NilamHutAPI.Services;
 using System.Linq;
+using NilamHutAPI.Repositories;
+using NilamHutAPI.Repositories.interfaces;
+using NilamHutAPI.Services.interfaces;
 
 namespace NilamHutAPI
 {
@@ -44,6 +47,8 @@ namespace NilamHutAPI
              services.AddScoped<IJwtFactory, JwtFactory>();
              services.AddScoped<IUserService,UserService>();
             services.AddScoped<ICommonService, CommonService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPostService, PostService>();
 
             services.AddCors(options =>
             {

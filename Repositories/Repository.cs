@@ -36,7 +36,7 @@ namespace NilamHutAPI.Repositories
             if (exist != null)
             {
                 _context.Entry(exist).CurrentValues.SetValues(entity);
-                await _context.SaveChangesAsync();
+                return await _context.SaveChangesAsync();
             }
             return await _context.SaveChangesAsync();
         }
@@ -46,7 +46,7 @@ namespace NilamHutAPI.Repositories
             return await _context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> Get(Guid id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
         }
