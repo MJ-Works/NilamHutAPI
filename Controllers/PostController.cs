@@ -58,7 +58,7 @@ namespace NilamHutAPI.Controllers
             else return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var posts = await _postService.Delete(id);
