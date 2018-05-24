@@ -11,17 +11,17 @@ namespace NilamHutAPI.Controllers
     [Route("api/[controller]")]
     public class PostController : Controller
     {
-        private readonly IPostService _postService;
+        private readonly IServiceUnit _serviceUnit;
 
-        public PostController(IPostService postService)
+        public PostController(IServiceUnit serviceUnit)
         {
-            _postService = postService;
+            _serviceUnit = serviceUnit;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = await _postService.Get();
+            var posts = await _serviceUnit.Post.Get();
             if (posts == null) return BadRequest();
             return Json(posts);
         }
@@ -29,7 +29,7 @@ namespace NilamHutAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var posts = await _postService.Get(id);
+            var posts = await _serviceUnit.Post.Get(id);
             if (posts == null) return BadRequest();
             return Json(posts);
         }
@@ -39,7 +39,7 @@ namespace NilamHutAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _postService.Post(postFromView);
+            var result = await _serviceUnit.Post.Post(postFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(result);
@@ -51,7 +51,7 @@ namespace NilamHutAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _postService.Put(id,postFromView);
+            var result = await _serviceUnit.Post.Put(id,postFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(result);
@@ -61,7 +61,7 @@ namespace NilamHutAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var posts = await _postService.Delete(id);
+            var posts = await _serviceUnit.Post.Delete(id);
             if (posts == false) return BadRequest();
             return Ok();
         }

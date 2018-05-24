@@ -10,19 +10,17 @@ namespace NilamHutAPI.Controllers
     [Route("api/[controller]")]
     public class BidController : Controller
     {
-        private readonly IBidService _bidService;
-        private readonly IUnitOfWork _repository;
+        private readonly IServiceUnit _serviceUnit;
 
-        public BidController(IBidService bidService, IUnitOfWork repository)
+        public BidController(IServiceUnit serviceUnit)
         {
-            _bidService = bidService;
-            _repository = repository;
+            _serviceUnit = serviceUnit;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var bids = await _bidService.Get();
+            var bids = await _serviceUnit.Bid.Get();
             if (bids == null) return BadRequest();
             return Json(bids);
         }
@@ -30,7 +28,7 @@ namespace NilamHutAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var bids = await _bidService.Get(id);
+            var bids = await _serviceUnit.Bid.Get(id);
             if (bids == null) return BadRequest();
             return Json(bids);
         }
@@ -40,7 +38,7 @@ namespace NilamHutAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _bidService.Post(bidFromView);
+            var result = await _serviceUnit.Bid.Post(bidFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(result);
@@ -52,7 +50,7 @@ namespace NilamHutAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            var result = await _bidService.Put(id, bidFromView);
+            var result = await _serviceUnit.Bid.Put(id, bidFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(result);
@@ -62,7 +60,7 @@ namespace NilamHutAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var posts = await _bidService.Delete(id);
+            var posts = await _serviceUnit.Bid.Delete(id);
             if (posts == false) return BadRequest();
             return Ok();
         }

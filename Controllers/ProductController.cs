@@ -17,21 +17,17 @@ namespace NilamHutAPI.Controllers
     [Route("api/[controller]")]
     public class ProductController : Controller
     {
-        private readonly IProductService _productService;
-        private readonly IUnitOfWork _repository;
-        private readonly ApplicationDbContext _context;
+        private readonly IServiceUnit _serviceUnit;
 
-        public ProductController(IProductService productService, IUnitOfWork repository, ApplicationDbContext context)
+        public ProductController(IServiceUnit serviceUnit)
         {
-            _productService = productService;
-            _repository = repository;
-            _context = context;
+            _serviceUnit = serviceUnit;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var bids = await _productService.Get();
+            var bids = await _serviceUnit.Product.Get();
             if (bids == null) return BadRequest();
             return Json(bids);
         }
@@ -39,7 +35,7 @@ namespace NilamHutAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var bids = await _productService.Get(id);
+            var bids = await _serviceUnit.Product.Get(id);
             if (bids == null) return BadRequest();
             return Json(bids);
         }
@@ -49,29 +45,17 @@ namespace NilamHutAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var result = await _productService.Post(productFromForm);
+            var result = await _serviceUnit.Product.Post(productFromForm);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(result);
             else return Ok();
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put(Guid id, [FromBody] ProductViewModel productFromForm)
-        //{
-        //    if (!ModelState.IsValid) return BadRequest();
-
-        //    var result = await _productService.Put(id, productFromForm);
-        //    Guid GuidOutput;
-        //    bool isGuid = Guid.TryParse(result, out GuidOutput);
-        //    if (!isGuid) return BadRequest(result);
-        //    else return Ok();
-        //}
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var posts = await _productService.Delete(id);
+            var posts = await _serviceUnit.Product.Delete(id);
             if (posts == false) return BadRequest();
             return Ok();
         }
