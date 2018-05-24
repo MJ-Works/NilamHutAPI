@@ -1,7 +1,4 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace NilamHutAPI.ViewModels
+namespace NilamHutAPI.ViewModels.PostRelated
 {
     public class PostViewModel
     {
