@@ -15,7 +15,7 @@ namespace NilamHutAPI.Models
 
         [Required]
         [StringLength(50)]
-        public int ProductName { get; set; }
+        public string ProductName { get; set; }
 
         [Required]
         [StringLength(1000)]

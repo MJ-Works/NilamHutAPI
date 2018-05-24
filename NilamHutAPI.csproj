@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="wwwroot\" />
+    <Folder Include="wwwroot\Products\" />
   </ItemGroup>
 
   <ItemGroup>

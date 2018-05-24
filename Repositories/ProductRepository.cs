@@ -28,8 +28,10 @@ namespace NilamHutAPI.Repositories
                 //save image to server
                 var extention = Path.GetExtension(img.FileName);
 
-                if (allowedExtensions.Contains(extention.ToLower()) || img.Length > 2000000)
+                if (img.Length > 2000000)
                     message = "Select jpg or jpeg or png less than 2Μ";
+                else if (!allowedExtensions.Contains(extention.ToLower()))
+                    message = "Must be jpeg or png";
                 else if (images.Count > 5)
                     message = "You Can Select At Most 5 Images";
 
