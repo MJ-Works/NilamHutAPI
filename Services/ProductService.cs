@@ -33,11 +33,16 @@ namespace NilamHutAPI.Services
             Product entity = new Product
             {
                 Id = Guid.NewGuid(),
-                PostId = product.PostId,
+                ApplicationUserId = product.ApplicationUserId,
+                StartDateTime = product.StartDateTime,
+                EndDateTime = product.EndDateTime,
                 ProductName = product.ProductName,
                 ProductDescription = product.ProductDescription,
                 Quantity = product.Quantity,
-                BasePrice = product.BasePrice
+                BasePrice = product.BasePrice,
+                ContactInfo = product.ContactInfo,
+                CountryId = product.CountryId,
+                CityId = product.CityId
             };
 
             //fsave product

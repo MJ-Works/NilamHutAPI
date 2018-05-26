@@ -12,6 +12,6 @@ namespace NilamHutAPI.Models
         [StringLength(20)]
         public String CityName { get; set; }
 
-        public List<Post> Posts { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

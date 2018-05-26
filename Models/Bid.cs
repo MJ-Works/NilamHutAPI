@@ -14,7 +14,8 @@ namespace NilamHutAPI.Models
         public String ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
-        public Guid? PostId { get; set; }
-        public Post Post { get; set; }
+        [Required]
+        public Guid? ProductId { get; set; }
+        public Product Products { get; set; }
     }
 }

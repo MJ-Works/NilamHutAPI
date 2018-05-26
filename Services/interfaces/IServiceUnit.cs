@@ -8,7 +8,6 @@ namespace NilamHutAPI.Services.interfaces
     public interface IServiceUnit : IDisposable
     {
         IBidService Bid { get; }
-        IPostService Post { get; }
         IProductService Product { get; }
     }
 }

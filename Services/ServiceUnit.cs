@@ -17,12 +17,10 @@ namespace NilamHutAPI.Services
         {
             _context = context;
             Bid = new BidService(_context);
-            Post = new PostService(_context);
             Product = new ProductService(_context);
         }
 
         public IBidService Bid { get; }
-        public IPostService Post { get; }
         public IProductService Product { get; }
 
         public void Dispose()

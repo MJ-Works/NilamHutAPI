@@ -11,12 +11,10 @@ namespace NilamHutAPI.Repositories
         {
             _context = context;
             Products = new ProductRepository(_context);
-            Posts = new PostRepository(_context);
             Bid = new  BidRepository(_context);
         }
 
         public IProductRepository Products { get; private set; }
-        public IPostRepository Posts { get; private set; }
         public IBidRepository Bid { get; private set; }
 
         public void Dispose()

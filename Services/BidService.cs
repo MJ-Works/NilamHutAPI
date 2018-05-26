@@ -35,7 +35,7 @@ namespace NilamHutAPI.Services
                 Id = new Guid(),
                 ApplicationUserId = bidFromView.ApplicationUserId,
                 BidPrice = bidFromView.BidPrice,
-                PostId = bidFromView.PostId
+                ProductId = bidFromView.PostId
             };
             int success = await _repository.Bid.Add(entity);
             if (1 == success) return entity.Id.ToString();
@@ -49,7 +49,7 @@ namespace NilamHutAPI.Services
                 Id = id,
                 ApplicationUserId = bidFromView.ApplicationUserId,
                 BidPrice = bidFromView.BidPrice,
-                PostId = bidFromView.PostId
+                ProductId = bidFromView.PostId
             };
             int success = await _repository.Bid.Update(id, entity);
             if (1 == success) return entity.Id.ToString();
