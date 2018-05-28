@@ -109,7 +109,7 @@ namespace NilamHutAPI
 
             });
 
-            services.AddMvc().AddJsonOptions(
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 
@@ -142,9 +142,14 @@ namespace NilamHutAPI
             AssignAdminRole(userManager).Wait();
 
             app.UseCors("AllowSpecificOrigin");
+            
             app.UseStaticFiles();
 
             app.UseAuthentication();
+            
+            //app.UseHsts();
+
+            //app.UseHttpsRedirection();
 
             app.UseMvc();
         }
