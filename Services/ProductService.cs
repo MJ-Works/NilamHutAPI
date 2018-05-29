@@ -41,7 +41,7 @@ namespace NilamHutAPI.Services
                 Quantity = product.Quantity,
                 BasePrice = product.BasePrice,
                 ContactInfo = product.ContactInfo,
-                CountryId = product.CountryId,
+                CategoryId = product.CategoryId,
                 CityId = product.CityId
             };
 

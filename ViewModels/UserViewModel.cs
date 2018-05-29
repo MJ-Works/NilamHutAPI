@@ -12,9 +12,6 @@ namespace NilamHutAPI.ViewModels
         [Display(Name="Full Name")]
         public String FullName { get; set; }
 
-        [Display(Name="Country")]
-        public Guid CountryId { get; set; }
-
         [Display(Name="City")]
         public Guid CityId { get; set; }
 

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NilamHutAPI.Models;
-using NilamHutAPI.ViewModels;
+using NilamHutAPI.ViewModels.Shared;
 
 namespace NilamHutAPI.Services
 {
@@ -12,8 +12,8 @@ namespace NilamHutAPI.Services
         Task<IEnumerable<City>> AllCity();
 
 
-        Task<bool> AddCountry(CountryViewModel newCountry);
-        Task<IEnumerable<Country>> AllCountrty();
+        Task<bool> AddCategory(CategoryViewModel newCategory);
+        Task<IEnumerable<Category>> AllCategory();
 
 
         Task<bool> AddTag(TagViewModel newtag);

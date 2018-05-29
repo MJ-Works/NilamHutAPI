@@ -40,9 +40,9 @@ namespace NilamHutAPI.Models
         [StringLength(1000)]
         public String ContactInfo { get; set; }
 
-        public Country Country { get; set; }
+        public Category Category { get; set; }
         //[Required]
-        public Guid? CountryId { get; set; }
+        public Guid? CategoryId { get; set; }
 
         public City City { get; set; }
         //[Required]

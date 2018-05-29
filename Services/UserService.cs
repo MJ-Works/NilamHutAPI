@@ -25,7 +25,6 @@ namespace NilamHutAPI.Services
                 Id = new Guid(),
                 ApplicationUserId = user.ApplicationUserId,
                 FullName = user.FullName,
-                CountryId = user.CountryId,
                 CityId = user.CityId,
                 PostCode = user.PostCode,
                 Address = user.Address,
@@ -42,7 +41,6 @@ namespace NilamHutAPI.Services
             var findUser = await _context.User.SingleAsync(x=>x.ApplicationUserId == user.ApplicationUserId);
 
             findUser.FullName = user.FullName;
-            findUser.CountryId = user.CountryId;
             findUser.CityId = user.CityId;
             findUser.PostCode = user.PostCode;
             findUser.Address = user.Address;

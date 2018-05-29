@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace NilamHutAPI.ViewModels
+namespace NilamHutAPI.ViewModels.Shared
 {
     public class CityViewModel
     {

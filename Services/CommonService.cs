@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using NilamHutAPI.Models;
 using NilamHutAPI.Data;
-using NilamHutAPI.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using NilamHutAPI.ViewModels.Shared;
 
 namespace NilamHutAPI.Services
 {
@@ -38,20 +38,20 @@ namespace NilamHutAPI.Services
         // City Related End
 
         // Country Related Starts
-        public async Task<bool> AddCountry(CountryViewModel newCountry)
+        public async Task<bool> AddCategory(CategoryViewModel newCategory)
         {
-            var entity = new Country
+            var entity = new Category
             {
                 Id = new Guid(),
-                CountryName = newCountry.CountryName
+                CategoryName = newCategory.CategoryName
             };
-            _context.Country.Add(entity);
+            _context.Category.Add(entity);
             return 1 == await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Country>> AllCountrty()
+        public async Task<IEnumerable<Category>> AllCategory()
         {
-            return await _context.Country.ToListAsync();
+            return await _context.Category.ToListAsync();
         }
         // Counrty Related End
 

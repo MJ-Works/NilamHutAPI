@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NilamHutAPI.Services;
 using NilamHutAPI.Models;
-using NilamHutAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using NilamHutAPI.Helpers;
+using NilamHutAPI.ViewModels.Shared;
 
 namespace NilamHutAPI.Controllers
 {
@@ -45,20 +45,20 @@ namespace NilamHutAPI.Controllers
         }
 
 
-        [HttpGet("AllCountry")]
-        public async Task<IActionResult> AllCountry()
+        [HttpGet("AllCategory")]
+        public async Task<IActionResult> AllCategory()
         {
-            var result = await _commonService.AllCountrty();
+            var result = await _commonService.AllCategory();
             return new OkObjectResult(result);
         }
 
-        [HttpPost("AddCountry")]
-        public async Task<IActionResult> AddCountry([FromBody] CountryViewModel model)
+        [HttpPost("AddCategory")]
+        public async Task<IActionResult> AddCategory([FromBody] CategoryViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _commonService.AddCountry(model);
+            var result = await _commonService.AddCategory(model);
 
             if (!result)
                 return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
