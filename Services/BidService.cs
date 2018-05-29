@@ -30,13 +30,27 @@ namespace NilamHutAPI.Services
 
         public async Task<string> Post(BidViewModel bidFromView)
         {
+            //check already exists
+            var alreadyBid = await _repository.Bid.Find( s=> s.ApplicationUserId == bidFromView.ApplicationUserId && s.ProductId == bidFromView.ProductId);
+            
             Bid entity = new Bid
             {
-                Id = new Guid(),
                 ApplicationUserId = bidFromView.ApplicationUserId,
                 BidPrice = bidFromView.BidPrice,
                 ProductId = bidFromView.ProductId
             };
+
+            //if exists update
+            if(alreadyBid != null && alreadyBid.Any())
+            {
+                entity.Id = alreadyBid.ElementAt(0).Id;
+                int update = await _repository.Bid.Update(alreadyBid.ElementAt(0).Id,entity);
+                if(1 == update) return entity.Id.ToString();
+                else return "Unsucessfull";
+            }
+
+            //otherwise create
+            entity.Id = Guid.NewGuid();
             int success = await _repository.Bid.Add(entity);
             if (1 == success) return entity.Id.ToString();
             else return "Unsucessfull";
