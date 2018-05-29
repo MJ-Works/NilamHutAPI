@@ -20,6 +20,7 @@ using System.Linq;
 using NilamHutAPI.Repositories;
 using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
+using NilamHutAPI.Hubs;
 
 namespace NilamHutAPI
 {
@@ -109,19 +110,21 @@ namespace NilamHutAPI
 
             });
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonOptions(
-                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
-
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder =>
                     {
                         builder.WithOrigins("http://localhost:4200")
-                               .AllowAnyHeader().AllowAnyMethod();
+                               .AllowAnyHeader().AllowAnyMethod().AllowCredentials();
                     });
             });
+
+            services.AddSignalR();
+
+            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1).AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
         }
 
@@ -133,6 +136,8 @@ namespace NilamHutAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+                app.UseHsts();
 
             //create roles needed for application
 
@@ -142,14 +147,15 @@ namespace NilamHutAPI
             AssignAdminRole(userManager).Wait();
 
             app.UseCors("AllowSpecificOrigin");
+            app.UseSignalR(routes => {
+                routes.MapHub<NotifyBidHub>("/updateBidList");
+            });
             
             app.UseStaticFiles();
 
             app.UseAuthentication();
-            
-            //app.UseHsts();
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseMvc();
         }
