@@ -8,6 +8,7 @@ namespace NilamHutAPI.Models
     {
         public Guid Id { get; set; }
 
+        [Required]
         public ApplicationUser ApplicationUser { get; set; }
 
         [Required]
@@ -16,10 +17,8 @@ namespace NilamHutAPI.Models
         [StringLength(50)]
         public String FullName { get; set; }
 
-        public Country Country { get; set; }
         public Guid CountryId { get; set; }
 
-        public City City { get; set; }
         public Guid CityId { get; set; }
 
         [StringLength(20)]

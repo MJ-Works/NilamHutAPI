@@ -5,6 +5,9 @@ namespace NilamHutAPI.ViewModels
 {
     public class UserViewModel
     {
+        [Required]
+        public string ApplicationUserId { get; set; }
+        
         [StringLength(50)]
         [Display(Name="Full Name")]
         public String FullName { get; set; }

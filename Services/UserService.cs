@@ -15,15 +15,15 @@ namespace NilamHutAPI.Services
         {
             _context = context;
         }
-        public async Task<bool> AddUserAsync(UserViewModel user, string applicationUser)
+        public async Task<bool> AddUserAsync(UserViewModel user)
         {
-            var testIsAlreadyCreated = await _context.User.FirstOrDefaultAsync(x=>x.ApplicationUserId == applicationUser);
+            var testIsAlreadyCreated = await _context.User.FirstOrDefaultAsync(x=>x.ApplicationUserId == user.ApplicationUserId);
             if(testIsAlreadyCreated != null) //for disable posting multiple data for one application user through api
                 return false;                //one application user can have only one User information
 
             User newUser = new User{
                 Id = new Guid(),
-                ApplicationUserId = applicationUser,
+                ApplicationUserId = user.ApplicationUserId,
                 FullName = user.FullName,
                 CountryId = user.CountryId,
                 CityId = user.CityId,
@@ -37,9 +37,9 @@ namespace NilamHutAPI.Services
             return saveResult == 1;
         }
 
-        public async Task<bool> EditUserAsync(UserViewModel user, string applicationUser)
+        public async Task<bool> EditUserAsync(UserViewModel user)
         {
-            var findUser = await _context.User.SingleAsync(x=>x.ApplicationUserId == applicationUser);
+            var findUser = await _context.User.SingleAsync(x=>x.ApplicationUserId == user.ApplicationUserId);
 
             findUser.FullName = user.FullName;
             findUser.CountryId = user.CountryId;

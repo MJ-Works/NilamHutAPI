@@ -27,13 +27,9 @@ namespace NilamHutAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody]UserViewModel user)
         {
-            var getUserId = User.FindFirst("Id").Value;
-
-            if(getUserId == null) return Challenge();
-
             if(ModelState.IsValid)
             {
-                var result =  await _userService.AddUserAsync(user,getUserId);
+                var result =  await _userService.AddUserAsync(user);
                 if(result) return Ok();
                 else return new ObjectResult(result);
             }
@@ -42,26 +38,18 @@ namespace NilamHutAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetUser(string userId)
         {
-            var getUserId = User.FindFirst("Id").Value;
-
-            if(getUserId == null) return Challenge();
-
-            var result =  await _userService.GetUserAsync(getUserId);
+            var result =  await _userService.GetUserAsync(userId);
             return Json(result);
         }
 
         [HttpPut]
         public async Task<IActionResult> EditUser([FromBody] UserViewModel user)
         {
-            var getUserId = User.FindFirst("Id").Value;
-
-            if(getUserId == null) return Challenge();
-
             if(ModelState.IsValid)
             {
-                var result =  await _userService.EditUserAsync(user,getUserId);
+                var result =  await _userService.EditUserAsync(user);
                 if(result) return Ok();
                 else return new ObjectResult(result);
             }
