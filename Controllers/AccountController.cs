@@ -9,6 +9,7 @@ using NilamHutAPI.Auth;
 using Microsoft.Extensions.Options;
 using NilamHutAPI.Helpers;
 using Newtonsoft.Json;
+using NilamHutAPI.Services;
 
 namespace NilamHutAPI.Controllers
 {
@@ -19,13 +20,16 @@ namespace NilamHutAPI.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly IUserService _userService;
         public AccountController(ApplicationDbContext context, UserManager<ApplicationUser> userManager,
-                                IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions)
+                                IJwtFactory jwtFactory, IOptions<JwtIssuerOptions> jwtOptions,
+                                IUserService userService)
         {
             _appDbContext = context;
             _userManager = userManager;
              _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
+            _userService = userService;
         }
 
         [HttpPost("register")]

@@ -10,5 +10,7 @@ namespace NilamHutAPI.Models
     public class ApplicationUser : IdentityUser
     {
         public List<Bid> Bids;
+        public List<Product> Products { get; set; }
+        public List<SoldHistory> SoldHistories { get; set; }
     }
 }
