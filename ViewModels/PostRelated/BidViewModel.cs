@@ -14,6 +14,6 @@ namespace NilamHutAPI.ViewModels.PostRelated
         public String ApplicationUserId { get; set; }
 
         [Required]
-        public Guid PostId { get; set; }
+        public Guid ProductId { get; set; }
     }
 }
