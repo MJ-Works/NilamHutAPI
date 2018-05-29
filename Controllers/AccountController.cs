@@ -41,11 +41,26 @@ namespace NilamHutAPI.Controllers
                var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded) return new ObjectResult(result);
                 else
-                {
                     await _userManager.AddToRoleAsync(user, Constants.Strings.UserRoles.SimpleUser);
-                    return new ObjectResult(result);
-                }
 
+                //add null userInfo Table
+
+                ApplicationUser getUser = await _userManager.FindByNameAsync(model.UserName);
+
+                var addUserInfo = new UserViewModel
+                {
+                    ApplicationUserId = getUser.Id
+                };
+
+                bool isInfoAdded = await _userService.AddUserAsync(addUserInfo);
+
+                if(!isInfoAdded)
+                {
+                    //delete the added user from database
+                    await _userManager.DeleteAsync(getUser);
+                    return BadRequest();
+                }
+                else return Ok();
             }
             else{
                 return BadRequest(ModelState);
