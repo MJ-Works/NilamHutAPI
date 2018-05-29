@@ -416,10 +416,6 @@ namespace NilamHutAPI.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
                     b.HasIndex("RatingId");
 
                     b.ToTable("User");
@@ -549,16 +545,6 @@ namespace NilamHutAPI.Migrations
                     b.HasOne("NilamHutAPI.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("NilamHutAPI.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("NilamHutAPI.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("NilamHutAPI.Models.Rating", "Rating")

@@ -21,6 +21,7 @@ using NilamHutAPI.Repositories;
 using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
 using NilamHutAPI.Hubs;
+using NilamHutAPI.ViewModels;
 
 namespace NilamHutAPI
 {
@@ -50,13 +51,6 @@ namespace NilamHutAPI
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IServiceUnit, ServiceUnit>();
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                                    builder => builder.WithOrigins("http://localhost:4200")
-                                    .AllowAnyHeader().AllowAnyMethod());
-            });
 
 
             // Get options from app settings
@@ -130,7 +124,9 @@ namespace NilamHutAPI
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-                               RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+                               RoleManager<IdentityRole> roleManager,
+                                UserManager<ApplicationUser> userManager,
+                                IUserService userService)
         {
             if (env.IsDevelopment())
             {
@@ -144,7 +140,7 @@ namespace NilamHutAPI
             EnsureRolesAsync(roleManager).Wait();
 
             //Create an account and make it administrator
-            AssignAdminRole(userManager).Wait();
+            AssignAdminRole(userManager,userService).Wait();
 
             app.UseCors("AllowSpecificOrigin");
             app.UseSignalR(routes => {
@@ -174,7 +170,7 @@ namespace NilamHutAPI
         }
 
         //add a default administrator
-        public static async Task AssignAdminRole(UserManager<ApplicationUser> userManager)
+        public static async Task AssignAdminRole(UserManager<ApplicationUser> userManager,IUserService userService)
         {
             var testAdmin = await userManager.Users.Where(x => x.UserName == "IAmMonmoy").SingleOrDefaultAsync();
             if (testAdmin == null)
@@ -187,6 +183,15 @@ namespace NilamHutAPI
 
                 await userManager.CreateAsync(testAdmin, "512345Rrm_");
                 await userManager.AddToRoleAsync(testAdmin, Constants.Strings.UserRoles.Administrator);
+                
+                ApplicationUser getUser = await userManager.FindByNameAsync(testAdmin.UserName);
+
+                var addUserInfo = new UserViewModel
+                {
+                    ApplicationUserId = getUser.Id
+                };
+
+                await userService.AddUserAsync(addUserInfo);
             }
             else
             {

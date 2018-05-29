@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NilamHutAPI.Migrations
 {
-    public partial class NullAllowedForUserTable : Migration
+    public partial class NavigationpropertyremovedfornullinUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,6 +14,22 @@ namespace NilamHutAPI.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_SoldHistories_User_UserId",
                 table: "SoldHistories");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_User_City_CityId",
+                table: "User");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_User_Country_CountryId",
+                table: "User");
+
+            migrationBuilder.DropIndex(
+                name: "IX_User_CityId",
+                table: "User");
+
+            migrationBuilder.DropIndex(
+                name: "IX_User_CountryId",
+                table: "User");
 
             migrationBuilder.DropIndex(
                 name: "IX_SoldHistories_UserId",
@@ -113,6 +129,16 @@ namespace NilamHutAPI.Migrations
                 nullable: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_CityId",
+                table: "User",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_CountryId",
+                table: "User",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SoldHistories_UserId",
                 table: "SoldHistories",
                 column: "UserId");
@@ -137,6 +163,22 @@ namespace NilamHutAPI.Migrations
                 principalTable: "User",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_User_City_CityId",
+                table: "User",
+                column: "CityId",
+                principalTable: "City",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_User_Country_CountryId",
+                table: "User",
+                column: "CountryId",
+                principalTable: "Country",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }
