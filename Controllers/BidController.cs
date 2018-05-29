@@ -51,7 +51,7 @@ namespace NilamHutAPI.Controllers
             //send data to all hub
             else
             {
-                 var bids = await _serviceUnit.Bid.Get();
+                 var bids = await _serviceUnit.Bid.Get(new Guid(result));
                  await _hubContext.Clients.All.SendMessage(bids);
                 return Ok();
             } 

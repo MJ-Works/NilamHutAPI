@@ -5,6 +5,6 @@ namespace NilamHutAPI.Hubs.Interfaces
 {
     public interface ITypedBidHub
     {
-        Task SendMessage(IEnumerable<Bid> bidModel);
+        Task SendMessage(Bid bidModel);
     }
 }
