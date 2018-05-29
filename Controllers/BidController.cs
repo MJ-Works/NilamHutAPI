@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
 using NilamHutAPI.ViewModels.PostRelated;
+using NilamHutAPI.Hubs;
+using NilamHutAPI.Hubs.Interfaces;
 
 namespace NilamHutAPI.Controllers
 {
     [Route("api/[controller]")]
     public class BidController : Controller
     {
+        private readonly IHubContext<NotifyBidHub,ITypedBidHub> _hubContext;
         private readonly IServiceUnit _serviceUnit;
 
-        public BidController(IServiceUnit serviceUnit)
+        public BidController(IServiceUnit serviceUnit, IHubContext<NotifyBidHub, ITypedBidHub> hubContext)
         {
             _serviceUnit = serviceUnit;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -36,13 +41,20 @@ namespace NilamHutAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BidViewModel bidFromView)
         {
-            if (!ModelState.IsValid) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var result = await _serviceUnit.Bid.Post(bidFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(result);
-            else return Ok();
+
+            //send data to all hub
+            else
+            {
+                 var bids = await _serviceUnit.Bid.Get();
+                 await _hubContext.Clients.All.SendMessage(bids);
+                return Ok();
+            } 
         }
 
         [HttpPut("{id}")]

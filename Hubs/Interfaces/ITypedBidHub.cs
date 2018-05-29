@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using NilamHutAPI.ViewModels.PostRelated;
+using NilamHutAPI.Models;
 namespace NilamHutAPI.Hubs.Interfaces
 {
     public interface ITypedBidHub
     {
-        Task SendMessage(BidViewModel bidModel);
+        Task SendMessage(IEnumerable<Bid> bidModel);
     }
 }
