@@ -28,7 +28,9 @@ namespace NilamHutAPI.Services
                 CityId = user.CityId,
                 PostCode = user.PostCode,
                 Address = user.Address,
-                Phone = user.Phone
+                Phone = user.Phone,
+                Image = user.Image,
+                IsVip = user.IsVip
             };
             
             _context.User.Add(newUser);
@@ -45,6 +47,8 @@ namespace NilamHutAPI.Services
             findUser.PostCode = user.PostCode;
             findUser.Address = user.Address;
             findUser.Phone = user.Phone;
+            findUser.Image = user.Image;
+            findUser.IsVip = user.IsVip;
 
             var saveResult = await _context.SaveChangesAsync();
 
