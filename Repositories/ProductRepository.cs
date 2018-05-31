@@ -54,8 +54,7 @@ namespace NilamHutAPI.Repositories
                 {
                     Id = new Guid(),
                     ProductId = id,
-                    ImgPath = fileName,
-                    ImgDescription = "nothing"
+                    ImgPath = fileName
                 };
 
                 _context.Images.Add(imageEntity);

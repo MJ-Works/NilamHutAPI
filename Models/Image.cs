@@ -13,9 +13,5 @@ namespace NilamHutAPI.Models
 
         [Required]
         public String ImgPath { get; set; }
-
-        [Required]
-        [StringLength(1000)]
-        public String ImgDescription { get; set; }
     }
 }

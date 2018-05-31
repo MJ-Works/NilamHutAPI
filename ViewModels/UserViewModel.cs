@@ -26,5 +26,9 @@ namespace NilamHutAPI.ViewModels
         [StringLength(50)]
         [Phone]
         public String Phone { get; set; }
+
+        public String Image { get; set; }
+
+        public bool IsVip { get; set; }
     }
 }

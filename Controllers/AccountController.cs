@@ -37,9 +37,13 @@ namespace NilamHutAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                //for filtering duplicate email
+               var checkDuplicateEmail = await _userManager.FindByEmailAsync(model.Email);
+               if(checkDuplicateEmail != null) return BadRequest(Errors.AddErrorToModelState("Registration Failoure", "Duplicate Email.", ModelState));
+
                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                var result = await _userManager.CreateAsync(user, model.Password);
-                if (!result.Succeeded) return new ObjectResult(result);
+                if (!result.Succeeded) return BadRequest(Errors.AddErrorsToModelState(result,ModelState));
                 else
                     await _userManager.AddToRoleAsync(user, Constants.Strings.UserRoles.SimpleUser);
 
@@ -58,7 +62,7 @@ namespace NilamHutAPI.Controllers
                 {
                     //delete the added user from database
                     await _userManager.DeleteAsync(getUser);
-                    return BadRequest();
+                    return BadRequest(Errors.AddErrorToModelState("Registration Failoure", "There is something wrong with the server.", ModelState));
                 }
                 else return Ok();
             }
