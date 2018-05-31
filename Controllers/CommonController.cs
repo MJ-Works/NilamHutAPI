@@ -63,7 +63,7 @@ namespace NilamHutAPI.Controllers
             if (!result)
                 return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
 
-            return new OkObjectResult(new { Message = "Country Added." });
+            return new OkObjectResult(new { Message = "Category Added." });
         }
 
 
