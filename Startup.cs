@@ -181,7 +181,7 @@ namespace NilamHutAPI
                     Email = "iammonmoy@gmail.com"
                 };
 
-                await userManager.CreateAsync(testAdmin, "512345Rrm_");
+                await userManager.CreateAsync(testAdmin, "512345Rrm-");
                 await userManager.AddToRoleAsync(testAdmin, Constants.Strings.UserRoles.Administrator);
                 
                 ApplicationUser getUser = await userManager.FindByNameAsync(testAdmin.UserName);

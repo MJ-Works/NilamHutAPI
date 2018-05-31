@@ -37,6 +37,10 @@ namespace NilamHutAPI.Controllers
         {
             if (ModelState.IsValid)
             {
+                //for filtering duplicate email
+               var checkDuplicateEmail = await _userManager.FindByEmailAsync(model.Email);
+               if(checkDuplicateEmail != null) return BadRequest(Errors.AddErrorToModelState("Registration Failoure", "Duplicate Email.", ModelState));
+
                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
                var result = await _userManager.CreateAsync(user, model.Password);
                 if (!result.Succeeded) return BadRequest(Errors.AddErrorsToModelState(result,ModelState));
