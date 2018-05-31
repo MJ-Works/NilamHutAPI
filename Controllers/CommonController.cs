@@ -119,6 +119,13 @@ namespace NilamHutAPI.Controllers
             return new OkObjectResult(new { Message = "Tag Deleted." });
         }
 
+        [HttpPost("GetSearchProducts")]
+
+        public async Task<IActionResult> GetSearchProducts(SearchViewModel model)
+        {
+            var result = await _commonService.AllSearchProduct(model);
+            return new OkObjectResult(result);
+        }
 
     }
 }

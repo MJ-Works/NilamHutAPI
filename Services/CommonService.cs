@@ -103,7 +103,18 @@ namespace NilamHutAPI.Services
             return await _context.Tags.FindAsync(tagId);
         }
 
+        public async Task<IEnumerable<ProductHome>> AllSearchProduct(SearchViewModel model)
+        {
+            return await _context.Products.Select( a => new ProductHome {
+               basePrice = a.BasePrice,
+               productId = a.Id,
+               startDate = a.StartDateTime,
+               endDate = a.EndDateTime,
+               Bid = a.Bids.AsQueryable().OrderByDescending(x => x.BidPrice ).Include(x => x.ApplicationUser).FirstOrDefault(),
+               Image = a.Image.AsQueryable().FirstOrDefault()
+           }).AsNoTracking().ToListAsync();
+        }
         // Tag related End
-        
+
     }
 }

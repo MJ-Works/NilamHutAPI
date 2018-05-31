@@ -15,12 +15,14 @@ namespace NilamHutAPI.Services
         Task<bool> AddCategory(CategoryViewModel newCategory);
         Task<IEnumerable<Category>> AllCategory();
 
-
         Task<bool> AddTag(TagViewModel newtag);
         Task<bool> EditTag(Guid tagId, TagViewModel newtag);
         Task<bool> DeleteTag(Guid tagId);
         Task<Tag> getSingleTag(Guid tagId);
         Task<IEnumerable<Tag>> AllTag();
+
+        Task<IEnumerable<ProductHome>> AllSearchProduct(SearchViewModel model);
+
 
     }
 }
