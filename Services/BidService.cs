@@ -36,6 +36,7 @@ namespace NilamHutAPI.Services
             Bid entity = new Bid
             {
                 ApplicationUserId = bidFromView.ApplicationUserId,
+                BidTime = bidFromView.BidTime,
                 BidPrice = bidFromView.BidPrice,
                 ProductId = bidFromView.ProductId
             };
@@ -62,6 +63,7 @@ namespace NilamHutAPI.Services
             {
                 Id = id,
                 ApplicationUserId = bidFromView.ApplicationUserId,
+                BidTime = bidFromView.BidTime,
                 BidPrice = bidFromView.BidPrice,
                 ProductId = bidFromView.ProductId
             };
