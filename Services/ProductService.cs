@@ -80,7 +80,7 @@ namespace NilamHutAPI.Services
                     BidTime =  DateTime.Now,
                     UserId = new Guid(Bid.ApplicationUser.Id),
                     UserName = Bid.ApplicationUser.UserName,
-                    userAddress = product.ApplicationUser.User.Address
+                    userAddress = Bid.ApplicationUser.User.Address
                 };
                 bids.Add(bid);
             }
@@ -90,6 +90,7 @@ namespace NilamHutAPI.Services
                 posterId = new Guid(product.ApplicationUserId),
                 userId = new Guid(product.ApplicationUser.Id),
                 userName = product.ApplicationUser.UserName,
+                userAddress = product.ApplicationUser.User.Address,
                 userImage = product.ApplicationUser.User.Image,
                 userPhone = product.ApplicationUser.User.Phone,
                 StartDateTime = product.StartDateTime.Value,

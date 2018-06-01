@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NilamHutAPI.Models;
 using NilamHutAPI.ViewModels.PostRelated;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Services.interfaces
 {
@@ -14,5 +15,6 @@ namespace NilamHutAPI.Services.interfaces
         Task<string> Post(BidViewModel bidFromView);
         Task<string> Put(Guid id, BidViewModel bidFromView);
         Task<bool> Delete(Guid id);
+        Task<BidFrontEnd> BidForProductView(Guid id);
     }
 }

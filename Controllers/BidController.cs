@@ -7,6 +7,7 @@ using NilamHutAPI.Services.interfaces;
 using NilamHutAPI.ViewModels.PostRelated;
 using NilamHutAPI.Hubs;
 using NilamHutAPI.Hubs.Interfaces;
+using NilamHutAPI.Helpers;
 
 namespace NilamHutAPI.Controllers
 {
@@ -46,14 +47,16 @@ namespace NilamHutAPI.Controllers
             var result = await _serviceUnit.Bid.Post(bidFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
-            if (!isGuid) return BadRequest(result);
+            if (!isGuid) return BadRequest(Errors.AddErrorToModelState("Unsuccessfull", "Duplicate bid price or server error.", ModelState));
 
             //send data to all hub
             else
             {
                  var bids = await _serviceUnit.Bid.Get(new Guid(result));
                  await _hubContext.Clients.All.SendMessage(bids);
-                return Ok();
+                 var productViewBid = await _serviceUnit.Bid.BidForProductView(new Guid(result));
+                 await _hubContext.Clients.All.SendMessageToProductView(productViewBid);
+                return Ok(Errors.AddErrorToModelState("Successfull", "Request was successfull.", ModelState));
             } 
         }
 

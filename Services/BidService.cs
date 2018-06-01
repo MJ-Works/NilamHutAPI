@@ -6,6 +6,7 @@ using NilamHutAPI.Models;
 using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
 using NilamHutAPI.ViewModels.PostRelated;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Services
 {
@@ -78,6 +79,19 @@ namespace NilamHutAPI.Services
             int result = await _repository.Bid.Remove(entity);
             if (1 == result) return true;
             return false;
+        }
+        public async Task<BidFrontEnd> BidForProductView(Guid id)
+        {
+            var entity = await _repository.Bid.BidForProductView(id);
+            BidFrontEnd bid = new BidFrontEnd
+            {
+                BidPrice = entity.BidPrice,
+                BidTime = entity.BidTime,
+                UserId = new Guid(entity.ApplicationUserId),
+                UserName = entity.ApplicationUser.UserName,
+                userAddress = entity.ApplicationUser.User.Address
+            };
+            return bid;
         }
     }
 }

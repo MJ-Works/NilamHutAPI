@@ -11,6 +11,7 @@ namespace NilamHutAPI.ViewModels.FrontEnd
         public Guid userId { get; set; }
         public string userName { get; set; }
         public string userImage { get; set; }
+        public string userAddress { get; set; }
         public string userPhone { get; set; }
         public string userCity { get; set; }
         public DateTime StartDateTime { get; set; }
