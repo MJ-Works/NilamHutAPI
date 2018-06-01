@@ -25,6 +25,7 @@ namespace NilamHutAPI.Data
         public DbSet<SoldHistory> SoldHistories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Bid> Bid { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
