@@ -11,6 +11,9 @@ namespace NilamHutAPI.Models
         public int BidPrice { get; set; }
 
         [Required]
+        public DateTime BidTime { get; set; }
+
+        [Required]
         public String ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
