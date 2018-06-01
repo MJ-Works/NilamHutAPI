@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using NilamHutAPI.Data;
+using NilamHutAPI.Helpers;
 using NilamHutAPI.Models;
 using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
@@ -38,6 +39,14 @@ namespace NilamHutAPI.Controllers
             var bids = await _serviceUnit.Product.Get(id);
             if (bids == null) return BadRequest();
             return Json(bids);
+        }
+
+        [HttpGet("GetWithData/{id}")]
+        public async Task<IActionResult> GetWithData(Guid id)
+        {
+            var Product = await _serviceUnit.Product.GetWithRelatedData(id);
+            if (Product == null) return BadRequest(Errors.AddErrorToModelState("Error Getting product From Database", "Unsuccessfull.", ModelState));
+            return Json(Product);
         }
 
         [HttpPost]

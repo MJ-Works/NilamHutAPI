@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NilamHutAPI.Models;
+using NilamHutAPI.ViewModels.FrontEnd;
 using NilamHutAPI.ViewModels.PostRelated;
 
 namespace NilamHutAPI.Services.interfaces
@@ -14,5 +15,6 @@ namespace NilamHutAPI.Services.interfaces
         Task<string> Post(ProductViewModel postFromView);
         Task<string> Put(Guid id, ProductViewModel postFromView);
         Task<bool> Delete(Guid id);
+        Task<ProductShowViewModel> GetWithRelatedData(Guid id);
     }
 }

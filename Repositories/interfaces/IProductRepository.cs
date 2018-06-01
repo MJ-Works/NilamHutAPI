@@ -10,5 +10,6 @@ namespace NilamHutAPI.Repositories.interfaces
     {
         Task<string> AddImage(Guid id, List<IFormFile> images);
         Task<int> AddTag(Guid id, List<Guid> tags);
+        Task<Product> GetWithRelatedData(Guid id);
     }
 }

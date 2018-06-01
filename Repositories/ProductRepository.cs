@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using NilamHutAPI.Data;
 using NilamHutAPI.Models;
 using NilamHutAPI.Repositories.interfaces;
@@ -80,6 +81,19 @@ namespace NilamHutAPI.Repositories
             }
 
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task<Product> GetWithRelatedData(Guid id)
+        {
+            return await _context.Products.Include(i => i.ApplicationUser)
+                                          .Include(i => i.Category)
+                                           .Include(i => i.City)
+                                           .Include(i => i.Bids)
+                                              .ThenInclude(i => i.ApplicationUser)
+                                                  .ThenInclude(i => i.User)
+                                            .Include(i => i.Image)
+                                            .Include(i => i.Tags)
+                                            .Where( i => i.Id == id).FirstOrDefaultAsync();
         }
     }
 }

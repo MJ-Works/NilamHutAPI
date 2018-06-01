@@ -12,5 +12,6 @@ namespace NilamHutAPI.Models
         public List<Bid> Bids;
         public List<Product> Products { get; set; }
         public List<SoldHistory> SoldHistories { get; set; }
+        public User User { get; set; }
     }
 }

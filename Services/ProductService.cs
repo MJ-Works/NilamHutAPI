@@ -6,6 +6,7 @@ using NilamHutAPI.Models;
 using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
 using NilamHutAPI.ViewModels.PostRelated;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Services
 {
@@ -60,6 +61,50 @@ namespace NilamHutAPI.Services
             return entity.Id.ToString();
 
 
+        }
+
+        public async Task<ProductShowViewModel> GetWithRelatedData(Guid id)
+        {
+            Product product = await _repository.Products.GetWithRelatedData(id);
+            
+            List<string> img = new List<string>();
+            foreach(var image in product.Image)
+                img.Add(image.ImgPath);
+            
+            List<BidFrontEnd> bids = new List<BidFrontEnd>();
+            foreach(var Bid in product.Bids)
+            {
+                BidFrontEnd bid = new BidFrontEnd
+                {
+                    BidPrice = Bid.BidPrice,
+                    BidTime =  DateTime.Now,
+                    UserId = new Guid(Bid.ApplicationUser.Id),
+                    UserName = Bid.ApplicationUser.UserName
+                };
+                bids.Add(bid);
+            }
+
+            ProductShowViewModel model = new ProductShowViewModel
+            {
+                posterId = new Guid(product.ApplicationUserId),
+                userName = product.ApplicationUser.UserName,
+                userImage = product.ApplicationUser.User.Image,
+                userAddress = product.ApplicationUser.User.Address,
+                StartDateTime = product.StartDateTime.Value,
+                EndDateTime = product.EndDateTime.Value,
+                ProductName = product.ProductName,
+                ProductDescription = product.ProductDescription,
+                Quantity = product.Quantity,
+                BasePrice = product.BasePrice,
+                ContactInfo = product.ContactInfo,
+                CategoryId = product.Category.Id,
+                CategoryName = product.Category.CategoryName,
+                CityId = product.City.Id,
+                CityName = product.City.CityName,
+                Image = img.ToList(),
+                Bids = bids.ToList()
+            };
+            return model;
         }
 
         public Task<string> Put(Guid id, ProductViewModel postFromView)
