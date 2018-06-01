@@ -9,6 +9,7 @@ namespace NilamHutAPI.ViewModels.FrontEnd
         public DateTime BidTime { get; set; }
         public Guid UserId { get; set; }
         public String UserName { get; set; }
+        public string userAddress { get; set; }
     }
     
 }

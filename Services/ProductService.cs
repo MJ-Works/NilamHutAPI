@@ -79,7 +79,8 @@ namespace NilamHutAPI.Services
                     BidPrice = Bid.BidPrice,
                     BidTime =  DateTime.Now,
                     UserId = new Guid(Bid.ApplicationUser.Id),
-                    UserName = Bid.ApplicationUser.UserName
+                    UserName = Bid.ApplicationUser.UserName,
+                    userAddress = product.ApplicationUser.User.Address
                 };
                 bids.Add(bid);
             }
@@ -87,9 +88,10 @@ namespace NilamHutAPI.Services
             ProductShowViewModel model = new ProductShowViewModel
             {
                 posterId = new Guid(product.ApplicationUserId),
+                userId = new Guid(product.ApplicationUser.Id),
                 userName = product.ApplicationUser.UserName,
                 userImage = product.ApplicationUser.User.Image,
-                userAddress = product.ApplicationUser.User.Address,
+                userPhone = product.ApplicationUser.User.Phone,
                 StartDateTime = product.StartDateTime.Value,
                 EndDateTime = product.EndDateTime.Value,
                 ProductName = product.ProductName,

@@ -8,9 +8,11 @@ namespace NilamHutAPI.ViewModels.FrontEnd
     public class ProductShowViewModel
     {
         public Guid posterId { get; set; }
+        public Guid userId { get; set; }
         public string userName { get; set; }
         public string userImage { get; set; }
-        public string userAddress { get; set; }
+        public string userPhone { get; set; }
+        public string userCity { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public string ProductName { get; set; }
