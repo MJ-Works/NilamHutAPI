@@ -10,6 +10,7 @@ namespace NilamHutAPI.ViewModels.FrontEnd
         public Guid UserId { get; set; }
         public String UserName { get; set; }
         public string userAddress { get; set; }
+        public string userImage { get; set; }
     }
     
 }

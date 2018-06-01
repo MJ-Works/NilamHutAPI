@@ -66,6 +66,9 @@ namespace NilamHutAPI.Services
         public async Task<ProductShowViewModel> GetWithRelatedData(Guid id)
         {
             Product product = await _repository.Products.GetWithRelatedData(id);
+
+            product.Bids.OrderByDescending(i => i.BidPrice);
+            product.Bids.Take(10);
             
             List<string> img = new List<string>();
             foreach(var image in product.Image)
@@ -80,7 +83,8 @@ namespace NilamHutAPI.Services
                     BidTime =  DateTime.Now,
                     UserId = new Guid(Bid.ApplicationUser.Id),
                     UserName = Bid.ApplicationUser.UserName,
-                    userAddress = Bid.ApplicationUser.User.Address
+                    userAddress = Bid.ApplicationUser.User.Address,
+                    userImage = Bid.ApplicationUser.User.Image
                 };
                 bids.Add(bid);
             }
