@@ -21,7 +21,7 @@ namespace NilamHutAPI.Services
         Task<Tag> getSingleTag(Guid tagId);
         Task<IEnumerable<Tag>> AllTag();
 
-        Task<IEnumerable<ProductHome>> AllSearchProduct(SearchViewModel model);
+        Task<IEnumerable<HomeProducts>> AllSearchProduct(SearchViewModel model);
 
 
     }

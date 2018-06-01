@@ -58,7 +58,7 @@ namespace NilamHutAPI.Services
         // Tag Related
         public async Task<bool> AddTag(TagViewModel newtag)
         {
-           var entity = new Tag
+            var entity = new Tag
             {
                 Id = new Guid(),
                 TagName = newtag.TagName,
@@ -88,11 +88,14 @@ namespace NilamHutAPI.Services
             contex.TagName = newtag.TagName;
             contex.TagDescription = newtag.TagDescription;
 
-            try{
+            try
+            {
                 await _context.SaveChangesAsync();
                 return true;
 
-            }catch{
+            }
+            catch
+            {
                 return false;
             }
 
@@ -102,19 +105,56 @@ namespace NilamHutAPI.Services
         {
             return await _context.Tags.FindAsync(tagId);
         }
-
-        public async Task<IEnumerable<ProductHome>> AllSearchProduct(SearchViewModel model)
-        {
-            return await _context.Products.Select( a => new ProductHome {
-               basePrice = a.BasePrice,
-               productId = a.Id,
-               startDate = a.StartDateTime,
-               endDate = a.EndDateTime,
-               Bid = a.Bids.AsQueryable().OrderByDescending(x => x.BidPrice ).Include(x => x.ApplicationUser).FirstOrDefault(),
-               Image = a.Image.AsQueryable().FirstOrDefault()
-           }).AsNoTracking().ToListAsync();
-        }
         // Tag related End
+
+        public async Task<IEnumerable<HomeProducts>> AllSearchProduct(SearchViewModel model)
+        {
+            var collection = await _context.Products.Select(a => new ProductHome
+            {
+                ProductName = a.ProductName,
+                CityId = a.CityId,
+                CategoryId = a.CategoryId,
+                basePrice = a.BasePrice,
+                productId = a.Id,
+                startDate = a.StartDateTime,
+                endDate = a.EndDateTime,
+                Bid = a.Bids.AsQueryable().OrderByDescending(x => x.BidPrice).FirstOrDefault(),
+                Image = a.Image.AsQueryable().FirstOrDefault()
+            }).AsNoTracking().ToListAsync();
+
+
+            List<HomeProducts> result = new List<HomeProducts>();
+
+            Console.WriteLine("Name"+model.searchName);
+            Console.WriteLine("Cat"+model.Category);
+            Console.WriteLine("City"+model.City);
+            //Filtering And Lazy Explicit Loding                 
+            foreach (var item in collection)
+            {
+                if (model.Category != null && item.CategoryId != model.Category) continue;
+                if (model.City != null && item.CityId != model.City) continue;
+                if (model.searchName != null && !item.ProductName.Contains(model.searchName)) continue;
+
+                HomeProducts temp = new HomeProducts();
+                temp.productId = item.productId;
+                temp.basePrice = item.basePrice;
+
+                if (item.Bid != null)
+                {
+                    temp.bidderId = item.Bid.ApplicationUserId;
+                    temp.bidPrice = item.Bid.BidPrice;
+                    item.Bid = await _context.Bid.Include(x => x.ApplicationUser).SingleAsync(y => y.Id == item.Bid.Id);
+                    temp.bidderName = item.Bid.ApplicationUser.UserName;
+                }
+                temp.image = item.Image.ImgPath;
+                temp.startDate = item.startDate;
+                temp.endDate = item.endDate;
+
+                result.Add(temp);
+            }
+
+            return (IEnumerable<HomeProducts>)result;
+        }
 
     }
 }
