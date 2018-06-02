@@ -47,7 +47,7 @@ namespace NilamHutAPI.Controllers
             var result = await _serviceUnit.Bid.Post(bidFromView);
             Guid GuidOutput;
             bool isGuid = Guid.TryParse(result, out GuidOutput);
-            if (!isGuid) return BadRequest(Errors.AddErrorToModelState("Unsuccessfull", "Duplicate bid price or server error.", ModelState));
+            if (!isGuid) return BadRequest(Errors.AddErrorToModelState("Unsuccessfull", result, ModelState));
 
             //send data to all hub
             else

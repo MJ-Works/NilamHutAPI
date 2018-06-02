@@ -33,6 +33,12 @@ namespace NilamHutAPI.Services
         {
             //check already exists
             var alreadyBid = await _repository.Bid.Find( s=> s.ApplicationUserId == bidFromView.ApplicationUserId && s.ProductId == bidFromView.ProductId);
+            var product = await _repository.Products.Get(bidFromView.ProductId);
+            if(bidFromView.BidPrice < product.BasePrice) return "You Must Bid Greater than or equal base price";
+
+            var bids = await _repository.Bid.Find( d=> d.ProductId == bidFromView.ProductId);
+            bids.OrderByDescending(i=> i.BidPrice);
+            if(bidFromView.BidPrice <= bids.ElementAt(0).BidPrice) return "You Must Bid higher than or current highest bid";
             
             Bid entity = new Bid
             {
@@ -45,10 +51,11 @@ namespace NilamHutAPI.Services
             //if exists update
             if(alreadyBid != null && alreadyBid.Any())
             {
+                if( bidFromView.BidPrice <= alreadyBid.ElementAt(0).BidPrice) return "You Must Bid Greater than your previous bid";
                 entity.Id = alreadyBid.ElementAt(0).Id;
                 int update = await _repository.Bid.Update(alreadyBid.ElementAt(0).Id,entity);
                 if(1 == update) return entity.Id.ToString();
-                else return "Unsucessfull";
+                else return "Duplicate bid price or server error.";
             }
 
             //otherwise create
