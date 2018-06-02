@@ -89,7 +89,8 @@ namespace NilamHutAPI.Services
                 BidTime = entity.BidTime,
                 UserId = new Guid(entity.ApplicationUserId),
                 UserName = entity.ApplicationUser.UserName,
-                userAddress = entity.ApplicationUser.User.Address
+                userAddress = entity.ApplicationUser.User.Address,
+                ProductId = entity.ProductId.Value
             };
             return bid;
         }

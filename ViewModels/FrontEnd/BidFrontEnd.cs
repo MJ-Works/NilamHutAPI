@@ -5,6 +5,7 @@ namespace NilamHutAPI.ViewModels.FrontEnd
 {
     public class BidFrontEnd
     {
+        public Guid ProductId { get; set; }
         public double BidPrice { get; set; }
         public DateTime BidTime { get; set; }
         public Guid UserId { get; set; }

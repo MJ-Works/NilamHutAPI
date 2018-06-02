@@ -84,7 +84,8 @@ namespace NilamHutAPI.Services
                     UserId = new Guid(Bid.ApplicationUser.Id),
                     UserName = Bid.ApplicationUser.UserName,
                     userAddress = Bid.ApplicationUser.User.Address,
-                    userImage = Bid.ApplicationUser.User.Image
+                    userImage = Bid.ApplicationUser.User.Image,
+                    ProductId = product.Id
                 };
                 bids.Add(bid);
             }
