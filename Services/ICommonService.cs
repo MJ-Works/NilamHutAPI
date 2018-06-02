@@ -10,10 +10,11 @@ namespace NilamHutAPI.Services
     {
         Task<bool> AddCity(CityViewModel newCity);
         Task<IEnumerable<City>> AllCity();
-
+        Task<bool> DeleteCity(Guid cityId);
 
         Task<bool> AddCategory(CategoryViewModel newCategory);
         Task<IEnumerable<Category>> AllCategory();
+        Task<bool> DeleteCategory(Guid categoryId);
 
         Task<bool> AddTag(TagViewModel newtag);
         Task<bool> EditTag(Guid tagId, TagViewModel newtag);

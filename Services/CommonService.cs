@@ -35,6 +35,16 @@ namespace NilamHutAPI.Services
             return await _context.City.ToListAsync();
         }
 
+        public async Task<bool> DeleteCity(Guid cityId)
+        {
+            var findIfLinked = await _context.City.Include(i=>i.Products).Include(i=>i.User).Where(i=>i.Id == cityId).SingleOrDefaultAsync();
+            if(findIfLinked.Products.Count > 0 || findIfLinked.User.Count > 0)
+                return false;
+            _context.City.Remove(await _context.City.FindAsync(cityId));
+
+            return 1 == await _context.SaveChangesAsync();
+        }
+
         // City Related End
 
         // Country Related Starts
@@ -46,6 +56,15 @@ namespace NilamHutAPI.Services
                 CategoryName = newCategory.CategoryName
             };
             _context.Category.Add(entity);
+            return 1 == await _context.SaveChangesAsync();
+        }
+
+         public async Task<bool> DeleteCategory(Guid categoryId)
+        {
+            var findIfLinked = await _context.Products.Where(i=> i.CategoryId ==  categoryId).ToArrayAsync();
+            if(findIfLinked.Length > 0) return false;
+            _context.Category.Remove(await _context.Category.FindAsync(categoryId));
+
             return 1 == await _context.SaveChangesAsync();
         }
 

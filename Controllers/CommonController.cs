@@ -38,10 +38,24 @@ namespace NilamHutAPI.Controllers
             var result = await _commonService.AddCity(model);
 
             if (!result)
+                return BadRequest(Errors.AddErrorToModelState("Message", "city is linked with product or user or Something Went Wrong.", ModelState));
+
+            return Ok();
+
+        }
+
+        [HttpDelete("DeleteCity/{id}")]
+        public async Task<IActionResult> DeleteCity(Guid id)
+        {
+             if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _commonService.DeleteCity(id);
+
+            if (!result)
                 return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
 
-            return new OkObjectResult(new { Message = "City Added." });
-
+            return Ok();
         }
 
 
@@ -64,6 +78,20 @@ namespace NilamHutAPI.Controllers
                 return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
 
             return new OkObjectResult(new { Message = "Category Added." });
+        }
+
+        [HttpDelete("DeleteCategory/{id}")]
+        public async Task<IActionResult> DeleteCategory(Guid id)
+        {
+             if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _commonService.DeleteCategory(id);
+
+            if (!result)
+                return BadRequest(Errors.AddErrorToModelState("Message", "Category is linked with product or Something Went Wrong.", ModelState));
+
+            return Ok();
         }
 
 

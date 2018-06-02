@@ -13,5 +13,6 @@ namespace NilamHutAPI.Models
         public String CityName { get; set; }
 
         public List<Product> Products { get; set; }
+        public List<User> User { get; set; }
     }
 }
