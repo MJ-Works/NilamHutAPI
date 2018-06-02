@@ -144,9 +144,9 @@ namespace NilamHutAPI.Services
 
             List<HomeProducts> result = new List<HomeProducts>();
 
-            Console.WriteLine("Name"+model.searchName);
-            Console.WriteLine("Cat"+model.Category);
-            Console.WriteLine("City"+model.City);
+            // Console.WriteLine("Name"+model.searchName);
+            // Console.WriteLine("Cat"+model.Category);
+            // Console.WriteLine("City"+model.City);
             //Filtering And Lazy Explicit Loding                 
             foreach (var item in collection)
             {
