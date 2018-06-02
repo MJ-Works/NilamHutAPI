@@ -86,11 +86,12 @@ namespace NilamHutAPI.Repositories
         public async Task<Product> GetWithRelatedData(Guid id)
         {
             return await _context.Products.Include(i => i.ApplicationUser)
+                                                 .ThenInclude(i => i.User)
                                           .Include(i => i.Category)
                                            .Include(i => i.City)
                                            .Include(i => i.Bids)
                                               .ThenInclude(i => i.ApplicationUser)
-                                                  .ThenInclude(i => i.User)
+                                                 .ThenInclude(i => i.User)
                                             .Include(i => i.Image)
                                             .Include(i => i.Tags)
                                             .Where( i => i.Id == id).FirstOrDefaultAsync();
