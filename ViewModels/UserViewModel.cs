@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace NilamHutAPI.ViewModels
 {
@@ -27,7 +28,7 @@ namespace NilamHutAPI.ViewModels
         [Phone]
         public String Phone { get; set; }
 
-        public String Image { get; set; }
+        public IFormFile Image { get; set; }
 
         public bool IsVip { get; set; }
     }

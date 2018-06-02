@@ -56,9 +56,9 @@ namespace NilamHutAPI.Controllers
                     ApplicationUserId = getUser.Id
                 };
 
-                bool isInfoAdded = await _userService.AddUserAsync(addUserInfo);
+                string isInfoAdded = await _userService.AddUserAsync(addUserInfo);
 
-                if(!isInfoAdded)
+                if(isInfoAdded != "SuccessFull")
                 {
                     //delete the added user from database
                     await _userManager.DeleteAsync(getUser);

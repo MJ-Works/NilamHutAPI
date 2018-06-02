@@ -8,6 +8,7 @@ using NilamHutAPI.Models;
 using NilamHutAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using NilamHutAPI.Helpers;
 
 namespace NilamHutAPI.Controllers
 {
@@ -25,13 +26,13 @@ namespace NilamHutAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody]UserViewModel user)
+        public async Task<IActionResult> PostUser([FromForm]UserViewModel user)
         {
             if(ModelState.IsValid)
             {
                 var result =  await _userService.AddUserAsync(user);
-                if(result) return Ok();
-                else return new ObjectResult(result);
+                if(result == "SuccessFull") return Ok();
+                else return BadRequest(Errors.AddErrorToModelState("Info Add Failure", result , ModelState));
             }
 
             return BadRequest(ModelState);
@@ -45,7 +46,7 @@ namespace NilamHutAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditUser([FromBody] UserViewModel user)
+        public async Task<IActionResult> EditUser([FromForm] UserViewModel user)
         {
             if(ModelState.IsValid)
             {
