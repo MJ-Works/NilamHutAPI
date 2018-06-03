@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using NilamHutAPI.Models;
 using NilamHutAPI.ViewModels;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Services
 {
@@ -14,7 +15,7 @@ namespace NilamHutAPI.Services
         Task<bool> EditUserAsync(UserViewModel user);
         Task<string> AddImage(IFormFile image);
         Task<IEnumerable<Product>> GetUserPosts(string id);
-        Task<IEnumerable<Bid>> GetUserBids(string id);
+        Task<IEnumerable<UserBids>> GetUserBids(string id);
 
 
     }

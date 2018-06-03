@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Services
 {
@@ -21,11 +22,12 @@ namespace NilamHutAPI.Services
         }
         public async Task<string> AddUserAsync(UserViewModel user)
         {
-            var testIsAlreadyCreated = await _context.User.FirstOrDefaultAsync(x=>x.ApplicationUserId == user.ApplicationUserId);
-            if(testIsAlreadyCreated != null) //for disable posting multiple data for one application user through api
+            var testIsAlreadyCreated = await _context.User.FirstOrDefaultAsync(x => x.ApplicationUserId == user.ApplicationUserId);
+            if (testIsAlreadyCreated != null) //for disable posting multiple data for one application user through api
                 return "Already Created";                //one application user can have only one User information
 
-            User newUser = new User{
+            User newUser = new User
+            {
                 Id = new Guid(),
                 ApplicationUserId = user.ApplicationUserId,
                 FullName = user.FullName,
@@ -36,54 +38,54 @@ namespace NilamHutAPI.Services
                 IsVip = user.IsVip
             };
 
-            if(user.Image != null)
+            if (user.Image != null)
             {
                 var result = await AddImage(user.Image);
-                if(result == "Unsuccessfull") return "image Upload unsuccessfull";
+                if (result == "Unsuccessfull") return "image Upload unsuccessfull";
                 newUser.Image = result;
             }
-            
+
             _context.User.Add(newUser);
 
             var saveResult = await _context.SaveChangesAsync();
 
-            if(saveResult == 1) return "SuccessFull";
+            if (saveResult == 1) return "SuccessFull";
             return "Error In Database";
         }
 
         public async Task<bool> EditUserAsync(UserViewModel user)
         {
-            var findUser = await _context.User.SingleAsync(x=>x.ApplicationUserId == user.ApplicationUserId);
-            if(user.FullName != null)
+            var findUser = await _context.User.SingleAsync(x => x.ApplicationUserId == user.ApplicationUserId);
+            if (user.FullName != null)
                 findUser.FullName = user.FullName;
-            if(user.CityId != null)
+            if (user.CityId != null)
                 findUser.CityId = user.CityId;
-            if(user.PostCode != null)
+            if (user.PostCode != null)
                 findUser.PostCode = user.PostCode;
-            if(user.Address != null)
+            if (user.Address != null)
                 findUser.Address = user.Address;
-            if(user.Phone != null)
+            if (user.Phone != null)
                 findUser.Phone = user.Phone;
-            if(user.IsVip)
+            if (user.IsVip)
                 findUser.IsVip = user.IsVip;
 
-            if(user.Image != null)
+            if (user.Image != null)
             {
                 var result = await AddImage(user.Image);
-                if(result == "Unsuccessfull") return false;
+                if (result == "Unsuccessfull") return false;
                 findUser.Image = result;
             }
-          
+
 
             var saveResult = await _context.SaveChangesAsync();
 
-            if(saveResult == 1) return true;
+            if (saveResult == 1) return true;
             return false;
         }
 
         public async Task<User> GetUserAsync(string applicationUser)
         {
-            return await _context.User.SingleAsync(x=>x.ApplicationUserId == applicationUser);
+            return await _context.User.SingleAsync(x => x.ApplicationUserId == applicationUser);
         }
 
         public async Task<string> AddImage(IFormFile img)
@@ -91,28 +93,28 @@ namespace NilamHutAPI.Services
             var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
             var message = "";
 
-              var extention = Path.GetExtension(img.FileName);
+            var extention = Path.GetExtension(img.FileName);
 
-                if (img.Length > 2000000)
-                    message = "Select jpg or jpeg or png less than 2Μ";
-                else if (!allowedExtensions.Contains(extention.ToLower()))
-                    message = "Must be jpeg or png";
+            if (img.Length > 2000000)
+                message = "Select jpg or jpeg or png less than 2Μ";
+            else if (!allowedExtensions.Contains(extention.ToLower()))
+                message = "Must be jpeg or png";
 
-                var fileName = Path.Combine("Products", DateTime.Now.Ticks + extention);
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
-                try
+            var fileName = Path.Combine("Products", DateTime.Now.Ticks + extention);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileName);
+            try
+            {
+                using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await img.CopyToAsync(stream);
-                    }
+                    await img.CopyToAsync(stream);
                 }
-                catch
-                {
-                    message = "can not upload image";
-                }
+            }
+            catch
+            {
+                message = "can not upload image";
+            }
 
-                //if already image exists
+            //if already image exists
 
             if (message == "") return message = fileName;
 
@@ -121,12 +123,26 @@ namespace NilamHutAPI.Services
 
         public async Task<IEnumerable<Product>> GetUserPosts(string id)
         {
-            return await _context.Products.Where(X=> X.ApplicationUserId == id).ToListAsync();
+            return await _context.Products.Where(X => X.ApplicationUserId == id).ToListAsync();
         }
 
-        public async Task<IEnumerable<Bid>> GetUserBids(string id)
+        public async Task<IEnumerable<UserBids>> GetUserBids(string id)
         {
-            return await _context.Bid.Include(X=>X.Products).Where(X=> X.ApplicationUserId == id).ToListAsync();
+            var collection = await _context.Bid.Include(X => X.Products).Where(X => X.ApplicationUserId == id).ToListAsync();
+            List<UserBids> result = new List<UserBids>();
+                          
+            foreach (var item in collection)
+            {
+                UserBids temp = new UserBids{
+                    BidId = item.Id,
+                    ProductId = item.ProductId,
+                    ProductName = item.Products.ProductName,
+                    BidTime = item.BidTime,
+                    BidPrice = item.BidPrice
+                };
+                result.Add(temp);
+            }
+            return (IEnumerable<UserBids>) result;
         }
     }
 }
