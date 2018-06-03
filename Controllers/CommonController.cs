@@ -149,8 +149,9 @@ namespace NilamHutAPI.Controllers
 
         [HttpPost("GetSearchProducts")]
 
-        public async Task<IActionResult> GetSearchProducts(SearchViewModel model)
+        public async Task<IActionResult> GetSearchProducts([FromBody] SearchViewModel model)
         {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _commonService.AllSearchProduct(model);
             return new OkObjectResult(result);
         }
