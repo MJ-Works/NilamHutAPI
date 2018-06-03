@@ -13,7 +13,7 @@ using NilamHutAPI.Helpers;
 namespace NilamHutAPI.Controllers
 {
     //[Authorize(Policy = "ApiUser")]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
@@ -38,11 +38,25 @@ namespace NilamHutAPI.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUser(string userId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(string id)
         {
-            var result =  await _userService.GetUserAsync(userId);
-            return Json(result);
+            var result =  await _userService.GetUserAsync(id);
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet("UserPosts/{id}")]
+        public async Task<IActionResult> UserPosts(string id)
+        {
+            var result = await _userService.GetUserPosts(id);
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet("UserBids/{id}")]
+        public async Task<IActionResult> UserBids(string id)
+        {
+            var result = await _userService.GetUserBids(id);
+            return new OkObjectResult(result);
         }
 
         [HttpPut]

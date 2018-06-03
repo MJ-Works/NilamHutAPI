@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace NilamHutAPI.Services
 {
@@ -116,6 +117,16 @@ namespace NilamHutAPI.Services
             if (message == "") return message = fileName;
 
             return message = "Unsuccessfull";
+        }
+
+        public async Task<IEnumerable<Product>> GetUserPosts(string id)
+        {
+            return await _context.Products.Where(X=> X.ApplicationUserId == id).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Bid>> GetUserBids(string id)
+        {
+            return await _context.Bid.Include(X=>X.Products).Where(X=> X.ApplicationUserId == id).ToListAsync();
         }
     }
 }
