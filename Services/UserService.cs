@@ -121,19 +121,32 @@ namespace NilamHutAPI.Services
             return message = "Unsuccessfull";
         }
 
-        public async Task<IEnumerable<Product>> GetUserPosts(string id)
+        public async Task<IEnumerable<UserPosts>> GetUserPosts(string id)
         {
-            return await _context.Products.Where(X => X.ApplicationUserId == id).ToListAsync();
+            var collection = await _context.Products.Where(X => X.ApplicationUserId == id).ToListAsync();
+            List<UserPosts> result = new List<UserPosts>();
+            foreach (var item in collection)
+            {
+                UserPosts temp = new UserPosts{
+                    PostId = item.Id,
+                    ProductName = item.ProductName,
+                    StartDateTime = item.StartDateTime,
+                    EndDateTime = item.EndDateTime
+                };
+                result.Add(temp);
+            }
+            return (IEnumerable<UserPosts>) result;
         }
 
         public async Task<IEnumerable<UserBids>> GetUserBids(string id)
         {
             var collection = await _context.Bid.Include(X => X.Products).Where(X => X.ApplicationUserId == id).ToListAsync();
             List<UserBids> result = new List<UserBids>();
-                          
+
             foreach (var item in collection)
             {
-                UserBids temp = new UserBids{
+                UserBids temp = new UserBids
+                {
                     BidId = item.Id,
                     ProductId = item.ProductId,
                     ProductName = item.Products.ProductName,
@@ -142,7 +155,7 @@ namespace NilamHutAPI.Services
                 };
                 result.Add(temp);
             }
-            return (IEnumerable<UserBids>) result;
+            return (IEnumerable<UserBids>)result;
         }
     }
 }
