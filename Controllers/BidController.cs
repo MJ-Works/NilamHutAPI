@@ -56,7 +56,7 @@ namespace NilamHutAPI.Controllers
                  await _hubContext.Clients.All.SendMessage(bids);
                  var productViewBid = await _serviceUnit.Bid.BidForProductView(new Guid(result));
                  await _hubContext.Clients.All.SendMessageToProductView(productViewBid);
-                return Ok(Errors.AddErrorToModelState("Successfull", "Request was successfull.", ModelState));
+                return Ok();
             } 
         }
 

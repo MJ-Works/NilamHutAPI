@@ -53,7 +53,7 @@ namespace NilamHutAPI.Controllers
             var result = await _commonService.DeleteCity(id);
 
             if (!result)
-                return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
+                return BadRequest(Errors.AddErrorToModelState("Message", "City is link with product or user or Something Went Wrong.", ModelState));
 
             return Ok();
         }
