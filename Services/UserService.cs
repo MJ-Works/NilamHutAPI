@@ -83,9 +83,22 @@ namespace NilamHutAPI.Services
             return false;
         }
 
-        public async Task<User> GetUserAsync(string applicationUser)
+        public async Task<UserInfo> GetUserAsync(string applicationUser)
         {
-            return await _context.User.SingleAsync(x => x.ApplicationUserId == applicationUser);
+            var collection = await _context.User.Include(x => x.ApplicationUser).SingleAsync(x => x.ApplicationUserId == applicationUser);
+            UserInfo result = new UserInfo();
+            result.userId = collection.Id;
+            result.applicationUserId = collection.ApplicationUserId;
+            result.cityId = collection.CityId;
+            result.fullName = collection.FullName;
+            result.image = collection.Image;
+            result.postCode = collection.PostCode;
+            result.phone = collection.Phone;
+            result.email = collection.ApplicationUser.Email;
+            result.address = collection.Address;
+            var collection2 = await _context.City.FindAsync(result.cityId);
+            if (collection2 != null) result.cityName = collection2.CityName;
+            return result;
         }
 
         public async Task<string> AddImage(IFormFile img)
@@ -127,7 +140,8 @@ namespace NilamHutAPI.Services
             List<UserPosts> result = new List<UserPosts>();
             foreach (var item in collection)
             {
-                UserPosts temp = new UserPosts{
+                UserPosts temp = new UserPosts
+                {
                     PostId = item.Id,
                     ProductName = item.ProductName,
                     StartDateTime = item.StartDateTime,
@@ -135,7 +149,7 @@ namespace NilamHutAPI.Services
                 };
                 result.Add(temp);
             }
-            return (IEnumerable<UserPosts>) result;
+            return (IEnumerable<UserPosts>)result;
         }
 
         public async Task<IEnumerable<UserBids>> GetUserBids(string id)

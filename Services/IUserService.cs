@@ -10,7 +10,7 @@ namespace NilamHutAPI.Services
 {
     public interface IUserService
     {
-        Task<User> GetUserAsync(string applicationUser);
+        Task<UserInfo> GetUserAsync(string applicationUser);
         Task<string> AddUserAsync(UserViewModel user);
         Task<bool> EditUserAsync(UserViewModel user);
         Task<string> AddImage(IFormFile image);
