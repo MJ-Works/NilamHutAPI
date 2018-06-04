@@ -171,5 +171,21 @@ namespace NilamHutAPI.Services
             }
             return (IEnumerable<UserBids>)result;
         }
+
+        public async Task<bool> EditUserImageAsync(IFormFile image, string userId)
+        {
+            var findUser = await _context.User.SingleAsync(x => x.ApplicationUserId == userId);
+            if (findUser == null) return false;
+            if (image != null)
+            {
+                var result = await AddImage(image);
+                if (result == "Unsuccessfull") return false;
+                findUser.Image = result;
+                var saveResult = await _context.SaveChangesAsync();
+                if (saveResult == 1) return true;
+
+            }
+            return false;
+        }
     }
 }

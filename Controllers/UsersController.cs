@@ -9,6 +9,7 @@ using NilamHutAPI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using NilamHutAPI.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace NilamHutAPI.Controllers
 {
@@ -66,7 +67,15 @@ namespace NilamHutAPI.Controllers
             var result = await _userService.EditUserAsync(user);
             if (!result) return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
             return new OkObjectResult(new { Message = "Profile Updated." });
-            
+
+        }
+        [HttpPut("UploadImage")]
+        public async Task<IActionResult> UpdateImage([FromForm] IFormFile image, string userId)
+        {
+            if (image == null || userId == null) BadRequest(Errors.AddErrorToModelState("Message", "All Field Required", ModelState));
+            var result = await _userService.EditUserImageAsync(image, userId);
+            if (!result) return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
+            return new OkObjectResult(new { Message = "Profile Image Updated." });
         }
     }
 }
