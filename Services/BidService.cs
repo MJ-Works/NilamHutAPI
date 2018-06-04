@@ -35,6 +35,8 @@ namespace NilamHutAPI.Services
             var alreadyBid = await _repository.Bid.Find(s => s.ApplicationUserId == bidFromView.ApplicationUserId && s.ProductId == bidFromView.ProductId);
             var product = await _repository.Products.Get(bidFromView.ProductId);
 
+            if(product.ApplicationUserId == bidFromView.ApplicationUserId) return "You can not bid your own product";
+
             if (product == null) return "We Can't Find any product";
 
             if (bidFromView.BidPrice < product.BasePrice) return "You Must Bid Greater than or equal base price";
