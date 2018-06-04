@@ -95,6 +95,9 @@ namespace NilamHutAPI.Services
 
         public async Task<bool> DeleteTag(Guid tagId)
         {
+            var findIfLinked = await _context.ProductTags.Where(i=> i.TagId ==  tagId).ToArrayAsync();
+            if(findIfLinked.Length > 0) return false;
+            
             _context.Tags.Remove(await _context.Tags.FindAsync(tagId));
 
             return 1 == await _context.SaveChangesAsync();

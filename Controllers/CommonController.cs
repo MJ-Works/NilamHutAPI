@@ -142,7 +142,7 @@ namespace NilamHutAPI.Controllers
             var result = await _commonService.DeleteTag(id);
 
             if (!result)
-                return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
+                return BadRequest(Errors.AddErrorToModelState("Message", "Tag is linked to product or something Went Wrong.", ModelState));
 
             return new OkObjectResult(new { Message = "Tag Deleted." });
         }
