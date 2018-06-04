@@ -69,12 +69,12 @@ namespace NilamHutAPI.Services
             if (user.IsVip)
                 findUser.IsVip = user.IsVip;
 
-            if (user.Image != null)
-            {
-                var result = await AddImage(user.Image);
-                if (result == "Unsuccessfull") return false;
-                findUser.Image = result;
-            }
+            // if (user.Image != null)
+            // {
+            //     var result = await AddImage(user.Image);
+            //     if (result == "Unsuccessfull") return false;
+            //     findUser.Image = result;
+            // }
 
 
             var saveResult = await _context.SaveChangesAsync();
