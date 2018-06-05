@@ -6,6 +6,7 @@ namespace NilamHutAPI.Models
     public class HomeProducts
     {
         public Guid productId { get; set; }
+        public string productName { get; set; }
         public int bidPrice { get; set; }
         public double basePrice { get; set; }
         public string bidderId { get; set; }

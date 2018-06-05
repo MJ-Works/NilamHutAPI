@@ -37,8 +37,8 @@ namespace NilamHutAPI.Services
 
         public async Task<bool> DeleteCity(Guid cityId)
         {
-            var findIfLinked = await _context.City.Include(i=>i.Products).Include(i=>i.User).Where(i=>i.Id == cityId).SingleOrDefaultAsync();
-            if(findIfLinked.Products.Count > 0 || findIfLinked.User.Count > 0)
+            var findIfLinked = await _context.City.Include(i => i.Products).Include(i => i.User).Where(i => i.Id == cityId).SingleOrDefaultAsync();
+            if (findIfLinked.Products.Count > 0 || findIfLinked.User.Count > 0)
                 return false;
             _context.City.Remove(await _context.City.FindAsync(cityId));
 
@@ -59,10 +59,10 @@ namespace NilamHutAPI.Services
             return 1 == await _context.SaveChangesAsync();
         }
 
-         public async Task<bool> DeleteCategory(Guid categoryId)
+        public async Task<bool> DeleteCategory(Guid categoryId)
         {
-            var findIfLinked = await _context.Products.Where(i=> i.CategoryId ==  categoryId).ToArrayAsync();
-            if(findIfLinked.Length > 0) return false;
+            var findIfLinked = await _context.Products.Where(i => i.CategoryId == categoryId).ToArrayAsync();
+            if (findIfLinked.Length > 0) return false;
             _context.Category.Remove(await _context.Category.FindAsync(categoryId));
 
             return 1 == await _context.SaveChangesAsync();
@@ -95,9 +95,9 @@ namespace NilamHutAPI.Services
 
         public async Task<bool> DeleteTag(Guid tagId)
         {
-            var findIfLinked = await _context.ProductTags.Where(i=> i.TagId ==  tagId).ToArrayAsync();
-            if(findIfLinked.Length > 0) return false;
-            
+            var findIfLinked = await _context.ProductTags.Where(i => i.TagId == tagId).ToArrayAsync();
+            if (findIfLinked.Length > 0) return false;
+
             _context.Tags.Remove(await _context.Tags.FindAsync(tagId));
 
             return 1 == await _context.SaveChangesAsync();
@@ -159,6 +159,7 @@ namespace NilamHutAPI.Services
 
                 HomeProducts temp = new HomeProducts();
                 temp.productId = item.productId;
+                temp.productName = item.ProductName;
                 temp.basePrice = item.basePrice;
 
                 if (item.Bid != null)
