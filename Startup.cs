@@ -46,8 +46,8 @@ namespace NilamHutAPI
             .AddDefaultTokenProviders();
 
 
-             services.AddScoped<IJwtFactory, JwtFactory>();
-             services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IJwtFactory, JwtFactory>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IServiceUnit, ServiceUnit>();
@@ -140,13 +140,14 @@ namespace NilamHutAPI
             EnsureRolesAsync(roleManager).Wait();
 
             //Create an account and make it administrator
-            AssignAdminRole(userManager,userService).Wait();
+            AssignAdminRole(userManager, userService).Wait();
 
             app.UseCors("AllowSpecificOrigin");
-            app.UseSignalR(routes => {
+            app.UseSignalR(routes =>
+            {
                 routes.MapHub<NotifyBidHub>("/updateBidList");
             });
-            
+
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -170,21 +171,22 @@ namespace NilamHutAPI
         }
 
         //add a default administrator
-        public static async Task AssignAdminRole(UserManager<ApplicationUser> userManager,IUserService userService)
+        public static async Task AssignAdminRole(UserManager<ApplicationUser> userManager, IUserService userService)
         {
-            var testAdmin = await userManager.Users.Where(x => x.UserName == "IAmMonmoy").SingleOrDefaultAsync();
-            if (testAdmin == null)
+            var testAdmin1 = await userManager.Users.Where(x => x.UserName == "IAmMonmoy").SingleOrDefaultAsync();
+            var testAdmin2 = await userManager.Users.Where(x => x.UserName == "Jaggesher").SingleOrDefaultAsync();
+            if (testAdmin1 == null)
             {
-                testAdmin = new ApplicationUser
+                testAdmin1 = new ApplicationUser
                 {
                     UserName = "IAmMonmoy",
                     Email = "iammonmoy@gmail.com"
                 };
 
-                await userManager.CreateAsync(testAdmin, "512345Rrm-");
-                await userManager.AddToRoleAsync(testAdmin, Constants.Strings.UserRoles.Administrator);
-                
-                ApplicationUser getUser = await userManager.FindByNameAsync(testAdmin.UserName);
+                await userManager.CreateAsync(testAdmin1, "512345Rrm-");
+                await userManager.AddToRoleAsync(testAdmin1, Constants.Strings.UserRoles.Administrator);
+
+                ApplicationUser getUser = await userManager.FindByNameAsync(testAdmin1.UserName);
 
                 var addUserInfo = new UserViewModel
                 {
@@ -193,10 +195,39 @@ namespace NilamHutAPI
 
                 await userService.AddUserAsync(addUserInfo);
             }
-            else
+
+            if (testAdmin2 == null)
             {
-                var isAdmin = await userManager.IsInRoleAsync(testAdmin, Constants.Strings.UserRoles.Administrator);
-                if (!isAdmin) await userManager.AddToRoleAsync(testAdmin, Constants.Strings.UserRoles.Administrator);
+                testAdmin2 = new ApplicationUser
+                {
+                    UserName = "Jaggesher",
+                    Email = "jaggesher14@gmail.com"
+                };
+
+                await userManager.CreateAsync(testAdmin2, "123456@Jk");
+                await userManager.AddToRoleAsync(testAdmin2, Constants.Strings.UserRoles.Administrator);
+
+                ApplicationUser getUser = await userManager.FindByNameAsync(testAdmin2.UserName);
+
+                var addUserInfo = new UserViewModel
+                {
+                    ApplicationUserId = getUser.Id
+                };
+
+                await userService.AddUserAsync(addUserInfo);
+            }
+
+
+            if (testAdmin1 != null)
+            {
+                var isAdmin1 = await userManager.IsInRoleAsync(testAdmin1, Constants.Strings.UserRoles.Administrator);
+                if (!isAdmin1) await userManager.AddToRoleAsync(testAdmin1, Constants.Strings.UserRoles.Administrator);
+            }
+
+            if (testAdmin2 != null)
+            {
+                var isAdmin2 = await userManager.IsInRoleAsync(testAdmin2, Constants.Strings.UserRoles.Administrator);
+                if (!isAdmin2) await userManager.AddToRoleAsync(testAdmin2, Constants.Strings.UserRoles.Administrator);
             }
         }
     }
