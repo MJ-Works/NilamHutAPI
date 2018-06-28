@@ -180,20 +180,14 @@ namespace NilamHutAPI.Services
         }
 
 
-         public async Task<bool> PostSoldProduct(SoldHistory model)
-        {
-            _context.SoldHistories.Add(model);
-            return 1 == await _context.SaveChangesAsync();
-        }
-
          public async Task<List<SoldHistory>> getSoldHistory(string id)
         {
-            return await _context.SoldHistories.Where(b => b.ApplicationUserId == id).ToListAsync();
+            return await _context.SoldHistories.Where(b => b.ApplicationUserId == id && DateTime.Compare(DateTime.Now , b.DateTime.Value) > 0).ToListAsync();
         }
 
         public async Task<List<SoldHistory>> getWinHistory(string id)
         {
-            return await _context.SoldHistories.Where(b => b.BuyerID == id).ToListAsync();
+            return await _context.SoldHistories.Where(b => b.BuyerID == id && DateTime.Compare(DateTime.Now , b.DateTime.Value) > 0).ToListAsync();
         }
     }
 }

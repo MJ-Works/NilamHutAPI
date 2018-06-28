@@ -7,6 +7,7 @@ using NilamHutAPI.Repositories.interfaces;
 using NilamHutAPI.Services.interfaces;
 using NilamHutAPI.ViewModels.PostRelated;
 using NilamHutAPI.ViewModels.FrontEnd;
+using System.Linq.Expressions;
 
 namespace NilamHutAPI.Services
 {
@@ -108,6 +109,39 @@ namespace NilamHutAPI.Services
                 ProductId = entity.ProductId.Value
             };
             return bid;
+        }
+
+        public async Task<string> PutToSoldHistory(BidViewModel bidFromView)
+        {
+            var product = await _repository.Products.Get(bidFromView.ProductId);
+            var result = 0;
+
+            var isAvilable = await _repository.SoldRepository.Find(s => s.ProductID  == bidFromView.ProductId.ToString());
+            if(isAvilable.Count() > 0)
+            {
+                isAvilable.ElementAt(0).BuyerID = bidFromView.ApplicationUserId;
+                isAvilable.ElementAt(0).SoldPrice = bidFromView.BidPrice;
+                result = await _repository.SoldRepository.Update(isAvilable.ElementAt(0).Id, isAvilable.ElementAt(0));
+                if (1 == result) return isAvilable.ElementAt(0).Id.ToString();
+            }
+            else 
+            {
+                var soldHistory = new SoldHistory
+                {
+                    Id = Guid.NewGuid(),
+                    ApplicationUserId = product.ApplicationUserId,
+                    ProductName = product.ProductName,
+                    ProductDescription = product.ProductDescription,
+                    SoldPrice = bidFromView.BidPrice,
+                    DateTime = product.EndDateTime,
+                    BuyerID = bidFromView.ApplicationUserId,
+                    ProductID = bidFromView.ProductId.ToString()
+                };
+                result = await _repository.SoldRepository.Add(soldHistory);
+                if (1 == result) return soldHistory.Id.ToString();
+            }
+            
+            return "Unsucessfull";
         }
     }
 }

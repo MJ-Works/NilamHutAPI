@@ -21,7 +21,6 @@ namespace NilamHutAPI.Services
         Task<bool> DeleteTag(Guid tagId);
         Task<Tag> getSingleTag(Guid tagId);
         Task<IEnumerable<Tag>> AllTag();
-        Task<bool> PostSoldProduct(SoldHistory model);
         Task<List<SoldHistory>> getSoldHistory(string id);
         Task<List<SoldHistory>> getWinHistory(string id);
 

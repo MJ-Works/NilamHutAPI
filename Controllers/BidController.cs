@@ -49,6 +49,9 @@ namespace NilamHutAPI.Controllers
             bool isGuid = Guid.TryParse(result, out GuidOutput);
             if (!isGuid) return BadRequest(Errors.AddErrorToModelState("Unsuccessfull", result, ModelState));
 
+            var result1 = await _serviceUnit.Bid.PutToSoldHistory(bidFromView);
+            isGuid = Guid.TryParse(result1, out GuidOutput);
+            if (!isGuid) return BadRequest(Errors.AddErrorToModelState("Unsuccessfull", result1, ModelState));
             //send data to all hub
             else
             {

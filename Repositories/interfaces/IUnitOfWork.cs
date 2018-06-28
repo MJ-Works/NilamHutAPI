@@ -6,5 +6,6 @@ namespace NilamHutAPI.Repositories.interfaces
     {
         IProductRepository Products { get; }
         IBidRepository Bid { get; }
+        ISoldHistoryRepository SoldRepository { get; }
     }
 }

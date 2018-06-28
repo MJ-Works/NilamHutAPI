@@ -13,6 +13,10 @@ namespace NilamHutAPI.Models
 
         [Required]
         [StringLength(100)]
+        public String ProductID { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public String ProductName { get; set; }
 
         [Required]

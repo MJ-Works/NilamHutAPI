@@ -14,6 +14,7 @@ namespace NilamHutAPI.Services.interfaces
         Task<Bid> Get(Guid id);
         Task<string> Post(BidViewModel bidFromView);
         Task<string> Put(Guid id, BidViewModel bidFromView);
+        Task<string> PutToSoldHistory(BidViewModel bidFromView);
         Task<bool> Delete(Guid id);
         Task<BidFrontEnd> BidForProductView(Guid id);
     }
