@@ -179,5 +179,21 @@ namespace NilamHutAPI.Services
             return (IEnumerable<HomeProducts>)result;
         }
 
+
+         public async Task<bool> PostSoldProduct(SoldHistory model)
+        {
+            _context.SoldHistories.Add(model);
+            return 1 == await _context.SaveChangesAsync();
+        }
+
+         public async Task<List<SoldHistory>> getSoldHistory(string id)
+        {
+            return await _context.SoldHistories.Where(b => b.ApplicationUserId == id).ToListAsync();
+        }
+
+        public async Task<List<SoldHistory>> getWinHistory(string id)
+        {
+            return await _context.SoldHistories.Where(b => b.BuyerID == id).ToListAsync();
+        }
     }
 }

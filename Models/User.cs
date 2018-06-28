@@ -35,5 +35,7 @@ namespace NilamHutAPI.Models
 
         public Rating Rating { get; set; }
         public Credit Credit { get; set; }
+
+        public List<SoldHistory> SoldHistory { get; set; }
     }
 }

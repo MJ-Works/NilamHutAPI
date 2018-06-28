@@ -156,5 +156,32 @@ namespace NilamHutAPI.Controllers
             return new OkObjectResult(result);
         }
 
+        [HttpPost("PostSoldHistory")]
+
+        public async Task<IActionResult> PostSoldHistory([FromBody] SoldHistory model)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _commonService.PostSoldProduct(model);
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet("GetSoldHistory/{id}")]
+
+        public async Task<IActionResult> GetSoldHistory(string id)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _commonService.getSoldHistory(id);
+            return new OkObjectResult(result);
+        }
+
+        [HttpGet("GetWinHistory/{id}")]
+
+        public async Task<IActionResult> GetWinHistory(string id)
+        {
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _commonService.getWinHistory(id);
+            return new OkObjectResult(result);
+        }
+
     }
 }
