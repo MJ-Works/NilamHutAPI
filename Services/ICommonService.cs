@@ -26,6 +26,7 @@ namespace NilamHutAPI.Services
         Task<List<SoldHistory>> getWinHistory(string id);
 
         Task<IEnumerable<Report>> AllReport();
+        Task<bool> DeleteReport(Guid ReportId);
         Task<bool> AddReport(ReportViewModel report);
 
         Task<IEnumerable<HomeProducts>> AllSearchProduct(SearchViewModel model);

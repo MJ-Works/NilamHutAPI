@@ -209,5 +209,12 @@ namespace NilamHutAPI.Services
 
             return 1 == await _context.SaveChangesAsync();
         }
+
+          public async Task<bool> DeleteReport(Guid reportId)
+        {
+            _context.Report.Remove(await _context.Report.FindAsync(reportId));
+
+            return 1 == await _context.SaveChangesAsync();
+        }
     }
 }

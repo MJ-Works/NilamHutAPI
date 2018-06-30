@@ -196,5 +196,16 @@ namespace NilamHutAPI.Controllers
             return new OkObjectResult(result);
         }
 
+        [HttpDelete("DeleteReport/{id}")]
+        public async Task<IActionResult> DeleteReport(Guid id)
+        {
+            var result = await _commonService.DeleteReport(id);
+
+            if (!result)
+                return BadRequest(Errors.AddErrorToModelState("Message", "something Went Wrong.", ModelState));
+
+            return new OkObjectResult(new { Message = "Report Deleted." });
+        }
+
     }
 }
