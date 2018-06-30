@@ -14,5 +14,6 @@ namespace NilamHutAPI.ViewModels.FrontEnd
         public string  postCode { get; set; }
         public string email { get; set; }
         public string image { get; set; }
+        public double rating { get; set; }
     }
 }

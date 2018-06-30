@@ -86,6 +86,11 @@ namespace NilamHutAPI.Services
         public async Task<UserInfo> GetUserAsync(string applicationUser)
         {
             var collection = await _context.User.Include(x => x.ApplicationUser).SingleAsync(x => x.ApplicationUserId == applicationUser);
+            var ratings = await _context.Rating.Where(x=> x.ApplicationUserId == applicationUser).ToListAsync();
+            
+            double num = ratings.Count();
+            double temp = ratings.Sum(x=> x.UserRating);
+
             UserInfo result = new UserInfo();
             result.userId = collection.Id;
             result.applicationUserId = collection.ApplicationUserId;
@@ -96,6 +101,7 @@ namespace NilamHutAPI.Services
             result.phone = collection.Phone;
             result.email = collection.ApplicationUser.Email;
             result.address = collection.Address;
+            result.rating = temp/num;
             var collection2 = await _context.City.FindAsync(result.cityId);
             if (collection2 != null) result.cityName = collection2.CityName;
             return result;
