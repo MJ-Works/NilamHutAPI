@@ -187,5 +187,32 @@ namespace NilamHutAPI.Services
             }
             return false;
         }
+
+        public async Task<bool> UpdateRating(RatingViewModel _rating)
+        {
+
+            var rating = await this._context.Rating.SingleOrDefaultAsync(X => X.ApplicationUserId == _rating.ApplicationUserId && X.GivenUserId == _rating.GivenUserId);
+
+            if (rating == null)
+            {
+                Rating newRating = new Rating
+                {
+                    Id = new Guid(),
+                    UserRating = _rating.UserRating,
+                    ApplicationUserId = _rating.ApplicationUserId,
+                    GivenUserId = _rating.GivenUserId,
+                    UserComment = _rating.UserComment
+                };
+                this._context.Add(newRating);
+            }
+            else
+            {
+                rating.UserRating = _rating.UserRating;
+            }
+
+            var result = await _context.SaveChangesAsync();
+
+            return result == 1;
+        }
     }
 }

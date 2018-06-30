@@ -13,6 +13,7 @@ namespace NilamHutAPI.Services
         Task<UserInfo> GetUserAsync(string applicationUser);
         Task<string> AddUserAsync(UserViewModel user);
         Task<bool> EditUserAsync(UserViewModel user);
+        Task<bool> UpdateRating(RatingViewModel _rating);
         Task<bool> EditUserImageAsync(IFormFile image, string userId);
         Task<string> AddImage(IFormFile image);
         Task<IEnumerable<UserPosts>> GetUserPosts(string id);

@@ -77,5 +77,15 @@ namespace NilamHutAPI.Controllers
             if (!result) return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
             return new OkObjectResult(new { Message = "Profile Image Updated." });
         }
+
+        [HttpPost("Updaterating")]
+        public async Task<IActionResult> Updaterating([FromBody]RatingViewModel rating)
+        {
+            // return Json(rating);
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+            var result = await _userService.UpdateRating(rating);
+           if (!result) return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
+            return new OkObjectResult(new { Message = "Rating Added/Updated." });
+        }
     }
 }
