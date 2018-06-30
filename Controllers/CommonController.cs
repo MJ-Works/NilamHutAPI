@@ -8,6 +8,7 @@ using NilamHutAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using NilamHutAPI.Helpers;
 using NilamHutAPI.ViewModels.Shared;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Controllers
 {
@@ -171,6 +172,27 @@ namespace NilamHutAPI.Controllers
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
             var result = await _commonService.getWinHistory(id);
+            return new OkObjectResult(result);
+        }
+
+        [HttpPost("AddReport")]
+        public async Task<IActionResult> AddReport([FromBody]ReportViewModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var result = await _commonService.AddReport(model);
+
+            if (!result)
+                return BadRequest(Errors.AddErrorToModelState("Message", "Something Went Wrong.", ModelState));
+
+            return new OkObjectResult(new { Message = "Report Added." });
+
+        }
+
+        [HttpGet("AllReport")]
+        public async Task<IActionResult> AllReport()
+        {
+            var result = await _commonService.AllReport();
             return new OkObjectResult(result);
         }
 

@@ -6,6 +6,7 @@ using NilamHutAPI.Models;
 using NilamHutAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using NilamHutAPI.ViewModels.Shared;
+using NilamHutAPI.ViewModels.FrontEnd;
 
 namespace NilamHutAPI.Services
 {
@@ -188,6 +189,25 @@ namespace NilamHutAPI.Services
         public async Task<List<SoldHistory>> getWinHistory(string id)
         {
             return await _context.SoldHistories.Where(b => b.BuyerID == id && DateTime.Compare(DateTime.Now , b.DateTime.Value) > 0).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Report>> AllReport()
+        {
+            return await _context.Report.ToListAsync();
+        }
+        
+        public async Task<bool> AddReport(ReportViewModel report)
+        {
+            var entity = new Report
+            {
+                Id = new Guid(),
+                ApplicationUserId = report.ApplicationUserId,
+                ReportDescription = report.ReportDescription
+            };
+
+            _context.Report.Add(entity);
+
+            return 1 == await _context.SaveChangesAsync();
         }
     }
 }
